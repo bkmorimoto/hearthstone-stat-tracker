@@ -81,6 +81,11 @@ if (Meteor.isClient) {
     },
     oppClassNames: function() {
       return OppHeroClasses.find();
+    },
+    winPercentage: function(myClass, oppClass) {
+      var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
+      var lossCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "loss"}).count();
+      return (winCount/(winCount + lossCount)*100).toFixed(2)
     }
   });
 
@@ -88,7 +93,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    WinChart.remove({});
+    // WinChart.remove({});
     // MyHeroClasses.remove({});
     // OppHeroClasses.remove({});
   });

@@ -92,8 +92,9 @@
 <template name="tableWinPercentage">
   {{# each myClassNames}}
     {{# each oppClassNames}}
-      {{../myClass}} vs. {{oppClass}}<br>
+      <td>{{winPercentage ../myClass oppClass}}</td>
     {{/each}}
+    <br>
   {{/each}}
 </template>
 
