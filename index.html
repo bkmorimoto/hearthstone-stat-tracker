@@ -29,6 +29,8 @@
   
   {{> statsTable }}
 
+  {{> tableWinPercentage }}
+
   <div class="ui section results-list">
     {{> results}}
   </div>
@@ -88,8 +90,10 @@
 </template>
 
 <template name="tableWinPercentage">
-  {{# each classNames}}
-    <td>{{> winPercentage}}</td>
+  {{# each myClassNames}}
+    {{# each oppClassNames}}
+      here?
+    {{/each}}
   {{/each}}
 </template>
 
