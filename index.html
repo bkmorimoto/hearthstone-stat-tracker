@@ -3,7 +3,7 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>Welcome to the Hearthstone Stats Calculator</h1>
   
   <div class="ui four column grid">
     <div class="column">
@@ -28,8 +28,6 @@
   </div>
   
   {{> statsTable }}
-
-  {{> tableWinPercentage }}
 
   <div class="ui section results-list">
     {{> results}}
@@ -89,15 +87,6 @@
   <div>Win Percentage: <span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
 </template>
 
-<template name="tableWinPercentage">
-  {{# each myClassNames}}
-    {{# each oppClassNames}}
-      <td>{{winPercentage ../myClass oppClass}}</td>
-    {{/each}}
-    <br>
-  {{/each}}
-</template>
-
 <template name="statsTable">
   <table class="ui section stats-table">
     <thead>
@@ -115,33 +104,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="tr-druid">
-        <td>Druid</td>
-      </tr>
-      <tr class="tr-hunter">
-        <td>Hunter</td>
-      </tr>
-      <tr class="tr-mage">
-        <td>Mage</td>
-      </tr>
-      <tr class="tr-paladin">
-        <td>Paladin</td>
-       </tr>
-      <tr class="tr-priest"> 
-        <td>Priest</td>
-      </tr>
-      <tr class="tr-rogue">  
-        <td>Rogue</td>
-      </tr>
-      <tr class="tr-shaman">  
-        <td>Shaman</td>
-      </tr>
-      <tr class="tr-warlock">  
-        <td>Warlock</td>
-      </tr>
-      <tr class="tr-warrior">  
-        <td>Warrior</td>
-      </tr>
+      {{# each myClassNames}}
+        <tr class="tr-{{myClass}}">
+          <td>{{myClass}}</td>
+          {{#each oppClassNames}}
+            <td>{{winPercentage ../myClass oppClass}}</td>
+          {{/each}}
+        </tr>
+      {{/each}}
     </tbody>
-  </table>
+  </table>  
 </template>

@@ -75,7 +75,7 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.tableWinPercentage.helpers({
+  Template.statsTable.helpers({
     myClassNames: function() {
       return MyHeroClasses.find();
     },
