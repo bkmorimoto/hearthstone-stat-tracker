@@ -26,53 +26,8 @@
   {{> lossCount }}
   {{> winPercentage }}
   </div>
-
-  <table class="ui section stats-table">
-    <thead>
-      <tr>
-        <th>Class</th>
-        <th>Druid</th>
-        <th>Hunter</th>
-        <th>Mage</th>
-        <th>Paladin</th>
-        <th>Priest</th>
-        <th>Rogue</th>
-        <th>Shaman</th>
-        <th>Warlock</th>
-        <th>Warrior</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="tr-druid">
-        <td>Druid</td>
-
-      </tr>
-      <tr class="tr-hunter">
-        <td>Hunter</td>
-      </tr>
-      <tr class="tr-mage">
-        <td>Mage</td>
-      </tr>
-      <tr class="tr-paladin">
-        <td>Paladin</td>
-       </tr>
-      <tr class="tr-priest"> 
-        <td>Priest</td>
-      </tr>
-      <tr class="tr-rogue">  
-        <td>Rogue</td>
-      </tr>
-      <tr class="tr-shaman">  
-        <td>Shaman</td>
-      </tr>
-      <tr class="tr-warlock">  
-        <td>Warlock</td>
-      </tr>
-      <tr class="tr-warrior">  
-        <td>Warrior</td>
-      </tr>
-    </tbody>
-  </table>
+  
+  {{> statsTable }}
 
   <div class="ui section results-list">
     {{> results}}
@@ -136,4 +91,52 @@
   {{# each classNames}}
     <td>{{> winPercentage}}</td>
   {{/each}}
+</template>
+
+<template name="statsTable">
+  <table class="ui section stats-table">
+    <thead>
+      <tr>
+        <th>Class</th>
+        <th>Druid</th>
+        <th>Hunter</th>
+        <th>Mage</th>
+        <th>Paladin</th>
+        <th>Priest</th>
+        <th>Rogue</th>
+        <th>Shaman</th>
+        <th>Warlock</th>
+        <th>Warrior</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="tr-druid">
+        <td>Druid</td>
+      </tr>
+      <tr class="tr-hunter">
+        <td>Hunter</td>
+      </tr>
+      <tr class="tr-mage">
+        <td>Mage</td>
+      </tr>
+      <tr class="tr-paladin">
+        <td>Paladin</td>
+       </tr>
+      <tr class="tr-priest"> 
+        <td>Priest</td>
+      </tr>
+      <tr class="tr-rogue">  
+        <td>Rogue</td>
+      </tr>
+      <tr class="tr-shaman">  
+        <td>Shaman</td>
+      </tr>
+      <tr class="tr-warlock">  
+        <td>Warlock</td>
+      </tr>
+      <tr class="tr-warrior">  
+        <td>Warrior</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
