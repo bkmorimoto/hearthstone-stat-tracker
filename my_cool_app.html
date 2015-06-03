@@ -1,0 +1,139 @@
+<head>
+  <title>my_cool_app</title>
+</head>
+
+<body>
+  <h1>Welcome to Meteor!</h1>
+  
+  <div class="ui four column grid">
+    <div class="column">
+      <h3>My Class</h3>
+      {{> classNames}}
+    </div>
+    <div class="column">
+      <h3>Opponent Class</h3>
+      {{> classNames}}
+    </div>
+  </div>
+
+  <div class="ui section results-buttons">
+  {{> win}}
+  {{> loss}}
+  </div>
+
+  <div class="ui section stats-counts">
+  {{> winCount }}
+  {{> lossCount }}
+  {{> winPercentage }}
+  </div>
+
+  <table class="ui section stats-table">
+    <thead>
+      <tr>
+        <th>Class</th>
+        <th>Druid</th>
+        <th>Hunter</th>
+        <th>Mage</th>
+        <th>Paladin</th>
+        <th>Priest</th>
+        <th>Rogue</th>
+        <th>Shaman</th>
+        <th>Warlock</th>
+        <th>Warrior</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="tr-druid">
+        <td>Druid</td>
+
+      </tr>
+      <tr class="tr-hunter">
+        <td>Hunter</td>
+      </tr>
+      <tr class="tr-mage">
+        <td>Mage</td>
+      </tr>
+      <tr class="tr-paladin">
+        <td>Paladin</td>
+       </tr>
+      <tr class="tr-priest"> 
+        <td>Priest</td>
+      </tr>
+      <tr class="tr-rogue">  
+        <td>Rogue</td>
+      </tr>
+      <tr class="tr-shaman">  
+        <td>Shaman</td>
+      </tr>
+      <tr class="tr-warlock">  
+        <td>Warlock</td>
+      </tr>
+      <tr class="tr-warrior">  
+        <td>Warrior</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ui section results-list">
+    {{> results}}
+  </div>
+
+</body>
+
+<template name="hello">
+  <button>Click Me</button>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="win">
+  <button class="ui button win-button">Win</button>
+</template>
+
+<template name="loss">
+  <button class="ui button loss-button">Loss</button>
+</template>
+
+<template name="classNames">
+  <div class="ui selection fluid dropdown">
+    <input type="hidden" name="class">
+    <div class="default text">Class</div>
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      {{# each classNames}}
+        {{> className}}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="className">
+ <div class="item" name="myClass">{{item}}</div>
+</template>
+
+<template name="results">
+  {{# each results}}
+    {{> result}}
+  {{/each}}
+</template>
+
+<template name="result">
+  <div>{{myClass}} vs. {{oppClass}} - {{result}} - {{createdAt}} </div>
+</template>
+
+<template name="winCount">
+  <div>Wins: {{winCount}}</div>
+</template>
+
+<template name="lossCount">
+  <div>Losses: {{lossCount}}</div>
+</template>
+
+<template name="winPercentage">
+  <div>Win Percentage: <span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
+</template>
+
+<template name="tableWinPercentage">
+  {{# each classNames}}
+    <td>{{> winPercentage}}</td>
+  {{/each}}
+</template>

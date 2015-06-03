@@ -1,0 +1,25 @@
+.win-button {
+  margin-top: 10px;
+}
+
+.loss-button {
+  margin-top: 50px;
+}
+
+.results-list {
+  margin-top: 15px;
+}
+
+.results-buttons {
+  margin-top: 15px;
+}
+
+.stats-counts {
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid black;
+  text-align: center;
+  width: 60px;
+}
