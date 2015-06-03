@@ -85,7 +85,13 @@ if (Meteor.isClient) {
     winPercentage: function(myClass, oppClass) {
       var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
       var lossCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "loss"}).count();
-      return (winCount/(winCount + lossCount)*100).toFixed(2)
+      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
+      if (percentage > 0) {
+        return percentage;
+      } else {
+        percentage = 0;
+        return percentage.toFixed(2);
+      }
     }
   });
 
