@@ -71,16 +71,16 @@ if (Meteor.isClient) {
 
   Template.classNames.helpers({
     classNames: function() {
-      return HeroClasses.find();
+      return MyHeroClasses.find();
     }
   });
 
   Template.tableWinPercentage.helpers({
     myClassNames: function() {
-      return HeroClasses.find();
+      return MyHeroClasses.find();
     },
     oppClassNames: function() {
-      return HeroClasses.find();
+      return OppHeroClasses.find();
     }
   });
 
@@ -89,6 +89,8 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     WinChart.remove({});
+    // MyHeroClasses.remove({});
+    // OppHeroClasses.remove({});
   });
 }
 

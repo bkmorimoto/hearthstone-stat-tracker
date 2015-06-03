@@ -1,15 +1,29 @@
-HeroClasses = new Mongo.Collection("heroClasses");
+MyHeroClasses = new Mongo.Collection("myHeroClasses");
+OppHeroClasses = new Mongo.Collection("oppHeroClasses")
 
-// HeroClasses.find().forEach(function (heroClass) {
-//   HeroClasses.remove(heroClass);
+// MyHeroClasses.find().forEach(function (myHeroClass) {
+//   MyHeroClasses.remove(myHeroClass);
+// })
+// OppHeroClasses.find().forEach(function (oppHeroClass) {
+//   OppHeroClasses.remove(oppHeroClass);
 // })
 
-// HeroClasses.insert({ item: "Druid" });
-// HeroClasses.insert({ item: "Hunter" });
-// HeroClasses.insert({ item: "Mage" });
-// HeroClasses.insert({ item: "Paladin" });
-// HeroClasses.insert({ item: "Priest" });
-// HeroClasses.insert({ item: "Rogue" });
-// HeroClasses.insert({ item: "Shaman" });
-// HeroClasses.insert({ item: "Warlock" });
-// HeroClasses.insert({ item: "Warrior" });
+// MyHeroClasses.insert({ myClass: "Druid" });
+// MyHeroClasses.insert({ myClass: "Hunter" });
+// MyHeroClasses.insert({ myClass: "Mage" });
+// MyHeroClasses.insert({ myClass: "Paladin" });
+// MyHeroClasses.insert({ myClass: "Priest" });
+// MyHeroClasses.insert({ myClass: "Rogue" })
+// MyHeroClasses.insert({ myClass: "Shaman" });
+// MyHeroClasses.insert({ myClass: "Warlock" });
+// MyHeroClasses.insert({ myClass: "Warrior" });
+
+// OppHeroClasses.insert({ oppClass: "Druid" });
+// OppHeroClasses.insert({ oppClass: "Hunter" });
+// OppHeroClasses.insert({ oppClass: "Mage" });
+// OppHeroClasses.insert({ oppClass: "Paladin" });
+// OppHeroClasses.insert({ oppClass: "Priest" });
+// OppHeroClasses.insert({ oppClass: "Rogue" });
+// OppHeroClasses.insert({ oppClass: "Shaman" });
+// OppHeroClasses.insert({ oppClass: "Warlock" });
+// OppHeroClasses.insert({ oppClass: "Warrior" });

@@ -64,7 +64,7 @@
 </template>
 
 <template name="className">
- <div class="item" name="myClass">{{item}}</div>
+ <div class="item" name="myClass">{{myClass}}</div>
 </template>
 
 <template name="results">
@@ -92,7 +92,7 @@
 <template name="tableWinPercentage">
   {{# each myClassNames}}
     {{# each oppClassNames}}
-      here?
+      {{../myClass}} vs. {{oppClass}}<br>
     {{/each}}
   {{/each}}
 </template>
