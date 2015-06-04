@@ -3,15 +3,11 @@
   margin: auto;
 }
 
-.loss-button {
-  margin-top: 50px;
+.win-button, .loss-button {
+  width: 100px;
 }
 
 .results-list {
-  margin-top: 15px;
-}
-
-.results-buttons {
   margin-top: 15px;
 }
 
