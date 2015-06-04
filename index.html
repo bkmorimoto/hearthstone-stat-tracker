@@ -1,9 +1,9 @@
 <head>
-  <title>my_cool_app</title>
+  <title>Hearthstone Stat Tracker</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>Welcome to the Hearthstone Stats Calculator</h1>
   
   <div class="ui four column grid">
     <div class="column">
@@ -26,53 +26,8 @@
   {{> lossCount }}
   {{> winPercentage }}
   </div>
-
-  <table class="ui section stats-table">
-    <thead>
-      <tr>
-        <th>Class</th>
-        <th>Druid</th>
-        <th>Hunter</th>
-        <th>Mage</th>
-        <th>Paladin</th>
-        <th>Priest</th>
-        <th>Rogue</th>
-        <th>Shaman</th>
-        <th>Warlock</th>
-        <th>Warrior</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="tr-druid">
-        <td>Druid</td>
-
-      </tr>
-      <tr class="tr-hunter">
-        <td>Hunter</td>
-      </tr>
-      <tr class="tr-mage">
-        <td>Mage</td>
-      </tr>
-      <tr class="tr-paladin">
-        <td>Paladin</td>
-       </tr>
-      <tr class="tr-priest"> 
-        <td>Priest</td>
-      </tr>
-      <tr class="tr-rogue">  
-        <td>Rogue</td>
-      </tr>
-      <tr class="tr-shaman">  
-        <td>Shaman</td>
-      </tr>
-      <tr class="tr-warlock">  
-        <td>Warlock</td>
-      </tr>
-      <tr class="tr-warrior">  
-        <td>Warrior</td>
-      </tr>
-    </tbody>
-  </table>
+  
+  {{> statsTable }}
 
   <div class="ui section results-list">
     {{> results}}
@@ -99,7 +54,7 @@
     <div class="default text">Class</div>
     <i class="dropdown icon"></i>
     <div class="menu">
-      {{# each classNames}}
+      {{#each classNames}}
         {{> className}}
       {{/each}}
     </div>
@@ -107,11 +62,11 @@
 </template>
 
 <template name="className">
- <div class="item" name="myClass">{{item}}</div>
+ <div class="item" name="myClass">{{myClass}}</div>
 </template>
 
 <template name="results">
-  {{# each results}}
+  {{#each results}}
     {{> result}}
   {{/each}}
 </template>
@@ -132,8 +87,31 @@
   <div>Win Percentage: <span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
 </template>
 
-<template name="tableWinPercentage">
-  {{# each classNames}}
-    <td>{{> winPercentage}}</td>
-  {{/each}}
+<template name="statsTable">
+  <table class="ui section stats-table">
+    <thead>
+      <tr>
+        <th>Class</th>
+        <th>Druid</th>
+        <th>Hunter</th>
+        <th>Mage</th>
+        <th>Paladin</th>
+        <th>Priest</th>
+        <th>Rogue</th>
+        <th>Shaman</th>
+        <th>Warlock</th>
+        <th>Warrior</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each myClassNames}}
+        <tr class="tr-{{myClass}}">
+          <td>{{myClass}}</td>
+          {{#each oppClassNames}}
+            <td style="background:{{getBackgroundColor ../myClass oppClass}}">{{winPercentage ../myClass oppClass}}</td>
+          {{/each}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>  
 </template>
