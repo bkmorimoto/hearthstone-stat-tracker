@@ -2,6 +2,8 @@ WinChart = new Mongo.Collection("winChart");
 
 if (Meteor.isClient) {
 
+  HeroClasses = new Mongo.Collection("heroClasses");
+
   function formatDate(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -87,16 +89,16 @@ if (Meteor.isClient) {
 
   Template.classNames.helpers({
     classNames: function() {
-      return MyHeroClasses.find();
+      return HeroClasses.find();
     }
   });
 
   Template.statsTable.helpers({
     myClassNames: function() {
-      return MyHeroClasses.find();
+      return HeroClasses.find();
     },
     oppClassNames: function() {
-      return OppHeroClasses.find();
+      return HeroClasses.find();
     },
     winPercentage: function(myClass, oppClass) {
       var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
@@ -132,8 +134,20 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // WinChart.remove({});
-    // MyHeroClasses.remove({});
-    // OppHeroClasses.remove({});
+   
+    HeroClasses = new Mongo.Collection("heroClasses");
+
+    if (HeroClasses.find().count() == 0) {
+      HeroClasses.insert({ heroClass: "Druid" });
+      HeroClasses.insert({ heroClass: "Hunter" });
+      HeroClasses.insert({ heroClass: "Mage" });
+      HeroClasses.insert({ heroClass: "Paladin" });
+      HeroClasses.insert({ heroClass: "Priest" });
+      HeroClasses.insert({ heroClass: "Rogue" })
+      HeroClasses.insert({ heroClass: "Shaman" });
+      HeroClasses.insert({ heroClass: "Warlock" });
+      HeroClasses.insert({ heroClass: "Warrior" });
+    }
   });
 }
 

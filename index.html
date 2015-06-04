@@ -62,7 +62,7 @@
 </template>
 
 <template name="className">
- <div class="item" name="myClass">{{myClass}}</div>
+ <div class="item" name="heroClass">{{heroClass}}</div>
 </template>
 
 <template name="results">
@@ -122,10 +122,10 @@
     </thead>
     <tbody>
       {{#each myClassNames}}
-        <tr class="tr-{{myClass}}">
-          <td>{{myClass}}</td>
+        <tr class="tr-{{heroClass}}">
+          <td>{{heroClass}}</td>
           {{#each oppClassNames}}
-            <td style="background:{{getBackgroundColor ../myClass oppClass}}">{{winPercentage ../myClass oppClass}}</td>
+            <td style="background:{{getBackgroundColor ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
           {{/each}}
         </tr>
       {{/each}}
