@@ -39,14 +39,6 @@
   </div>
 </body>
 
-<template name="win">
-  <button class="ui button positive win-button">Win</button>
-</template>
-
-<template name="loss">
-  <button class="ui button negative loss-button">Loss</button>
-</template>
-
 <template name="classNames">
   <div class="ui selection fluid dropdown">
     <input type="hidden" name="class">
@@ -58,6 +50,26 @@
       {{/each}}
     </div>
   </div>
+</template>
+
+<template name="win">
+  <button class="ui button positive win-button">Win</button>
+</template>
+
+<template name="loss">
+  <button class="ui button negative loss-button">Loss</button>
+</template>
+
+<template name="winCount">
+  <div>Wins: {{winCount}}</div>
+</template>
+
+<template name="lossCount">
+  <div>Losses: {{lossCount}}</div>
+</template>
+
+<template name="winPercentage">
+  <div>Win Percentage: <span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
 </template>
 
 <template name="className">
@@ -89,18 +101,6 @@
     <td class="results-data">{{result}}</td>
     <td class="results-data">{{createdAt}}</td>
   </tr>
-</template>
-
-<template name="winCount">
-  <div>Wins: {{winCount}}</div>
-</template>
-
-<template name="lossCount">
-  <div>Losses: {{lossCount}}</div>
-</template>
-
-<template name="winPercentage">
-  <div>Win Percentage: <span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
 </template>
 
 <template name="statsTable">
