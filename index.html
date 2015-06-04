@@ -17,7 +17,7 @@
       </div>
     </div>
   
-    <div class='ui centered aligned grid'>
+    <div class='ui centered grid'>
       <div class='ui buttons center align results-buttons'>
         {{> win}}
         <div class='or'></div>
@@ -26,10 +26,12 @@
     </div>
     
     <div class='ui centered grid stats-counts'>
-      <div class='ui statistics'>
-        {{> winCount }}
-        {{> lossCount }}
-        {{> winPercentage }}
+      <div class='ui statistics column center aligned'>
+        <div class='ui center aligned'>
+          {{> winCount }}
+          {{> lossCount }}
+          {{> winPercentage }}
+        </div>
       </div>
     </div>
     
@@ -114,7 +116,7 @@
         <tr class="tr-heroClass">
           <th>{{heroClass}}</th>
           {{#each oppClassNames}}
-            <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-content="Wins: {{getWins ../heroClass heroClass}} Losses: {{getLosses ../heroClass heroClass}}" data-variation="large" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+            <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-content="Wins: {{getWins ../heroClass heroClass}} Losses: {{getLosses ../heroClass heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
           {{/each}}
         </tr>
       {{/each}}

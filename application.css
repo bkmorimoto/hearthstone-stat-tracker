@@ -7,10 +7,6 @@
   width: 100px;
 }
 
-.results-list {
-  margin-top: 15px;
-}
-
 .ui.grid + .stats-counts {
   margin-top: 2rem;
 }
@@ -32,4 +28,8 @@
 .ui.table td.no-results {
   background: #f7f7f7 !important;
   color: #000000 !important;
+}
+
+.ui.grid > .ui.statistics.column {
+  padding-bottom: 0;
 }
