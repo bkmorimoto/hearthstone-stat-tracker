@@ -47,7 +47,7 @@
 
 <template name="classNames">
   <div class="ui selection fluid dropdown">
-    <input type="hidden" name="class">
+    <input type="hidden" name="heroClass">
     <div class="default text">Class</div>
     <i class="dropdown icon"></i>
     <div class="menu">
@@ -59,7 +59,7 @@
 </template>
 
 <template name="className">
- <div class="item" name="heroClass">{{heroClass}}</div>
+ <div class="item" data-value="{{heroClass}}">{{heroClass}}</div>
 </template>
 
 <template name="win">
@@ -124,10 +124,10 @@
   <table class="ui red celled structured four column table results-table">
     <thead>
       <tr>
-        <th class="results-head">My Class</th>
-        <th class="results-head">Opp Class</th>
-        <th class="results-head">Result</th>
-        <th class="results-head">DateTime</th>
+        <th>Class</th>
+        <th>Opponent</th>
+        <th>Result</th>
+        <th>DateTime</th>
       </tr>
     </thead>
     <tbody>
@@ -139,10 +139,10 @@
 </template>
 
 <template name="result">
-  <tr>
-    <td class="results-data">{{myClass}}</td>
-    <td class="results-data">{{oppClass}}</td>
-    <td class="results-data">{{result}}</td>
-    <td class="results-data">{{createdAt}}</td>
+  <tr class="{{getStatus result}}">
+    <td>{{myClass}}</td>
+    <td>{{oppClass}}</td>
+    <td>{{result}}</td>
+    <td>{{createdAt}}</td>
   </tr>
 </template>
