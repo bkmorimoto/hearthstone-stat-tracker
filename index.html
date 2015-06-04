@@ -24,13 +24,13 @@
         {{> loss}}
       </div>
     </div>
-
-    <div class='ui section stats-counts'>
-    {{> winCount }}
-    {{> lossCount }}
-    {{> winPercentage }}
-    </div>
     
+    <div class='ui centered grid stats-counts'>
+      {{> winCount }}
+      {{> lossCount }}
+      {{> winPercentage }}
+    </div>
+
     {{> statsTable }}
 
     <div class='ui section results-list'>
@@ -61,15 +61,24 @@
 </template>
 
 <template name="winCount">
-  <div>Wins: {{winCount}}</div>
+  <div class='ui blue big label'>
+    Wins
+    <div class='detail'>{{winCount}}</div>
+  </div>
 </template>
 
 <template name="lossCount">
-  <div>Losses: {{lossCount}}</div>
+  <div class='ui blue big label'>
+    Losses
+    <div class='detail'>{{lossCount}}</div>
+  </div>
 </template>
 
 <template name="winPercentage">
-  <div>Win Percentage: <span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
+  <div class='ui black big label'>
+    Win Percentage
+    <div class='detail'><span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
+  </div>
 </template>
 
 <template name="className">

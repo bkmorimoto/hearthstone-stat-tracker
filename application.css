@@ -11,8 +11,8 @@
   margin-top: 15px;
 }
 
-.stats-counts {
-  margin-top: 15px;
+.ui.grid + .stats-counts {
+  margin-top: 2rem;
 }
 
 .results-data, .results-head {
