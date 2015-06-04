@@ -98,6 +98,22 @@ if (Meteor.isClient) {
         percentage = 0;
         return percentage.toFixed(2);
       }
+    },
+    getBackgroundColor: function(myClass, oppClass) {
+      var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
+      var lossCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "loss"}).count();
+      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
+      if (percentage >= 60) {
+        return 'green'
+      } else if (percentage >= 55) {
+        return '#e4e821'
+      } else if (percentage >= 50) {
+        return 'orange'
+      } else if (percentage >= 0.00) {
+        return 'red'
+      } else {
+        return 'grey'
+      }
     }
   });
 

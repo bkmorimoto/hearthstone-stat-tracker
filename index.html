@@ -108,7 +108,7 @@
         <tr class="tr-{{myClass}}">
           <td>{{myClass}}</td>
           {{#each oppClassNames}}
-            <td>{{winPercentage ../myClass oppClass}}</td>
+            <td style="background:{{getBackgroundColor ../myClass oppClass}}">{{winPercentage ../myClass oppClass}}</td>
           {{/each}}
         </tr>
       {{/each}}
