@@ -105,7 +105,32 @@ if (Meteor.isClient) {
     },
     oppClassNames: function() {
       return HeroClasses.find();
-    },
+    }
+  });
+
+  Template.statsTable.events({
+    'click td': function(event) {
+      var $target = $(event.target);
+      var myClass = $target.data('myClass');
+      var oppClass = $target.data('oppClass');
+      var $myClassInput = $('input').first();
+      var $oppClassInput = $('input').last();
+      $myClassInput.val(myClass);
+      $oppClassInput.val(oppClass);
+      Session.set('myClass', myClass);
+      Session.set('oppClass', oppClass);
+      $myClassInput.closest('.dropdown').children('.text').removeClass('default');
+      $oppClassInput.closest('.dropdown').children('.text').removeClass('default');
+      $myClassInput.closest('.dropdown').children('.text').html(myClass);
+      $oppClassInput.closest('.dropdown').children('.text').html(oppClass);
+      $myClassInput.closest('.dropdown').find('.item').removeClass('active selected')
+      $oppClassInput.closest('.dropdown').find('.item').removeClass('active selected')
+      $myClassInput.closest('.dropdown').find('.item[data-value="' + myClass +'"]').addClass('active selected');
+      $oppClassInput.closest('.dropdown').find('.item[data-value="' + oppClass +'"]').addClass('active selected');
+    }
+  })
+
+  Template.matchUpStats.helpers({
     getWins: function(myClass, oppClass) {
       return WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
     },
@@ -139,29 +164,7 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.statsTable.events({
-    'click td': function(event) {
-      var $target = $(event.target);
-      var myClass = $target.data('myClass');
-      var oppClass = $target.data('oppClass');
-      var $myClassInput = $('input').first();
-      var $oppClassInput = $('input').last();
-      $myClassInput.val(myClass);
-      $oppClassInput.val(oppClass);
-      Session.set('myClass', myClass);
-      Session.set('oppClass', oppClass);
-      $myClassInput.closest('.dropdown').children('.text').removeClass('default');
-      $oppClassInput.closest('.dropdown').children('.text').removeClass('default');
-      $myClassInput.closest('.dropdown').children('.text').html(myClass);
-      $oppClassInput.closest('.dropdown').children('.text').html(oppClass);
-      $myClassInput.closest('.dropdown').find('.item').removeClass('active selected')
-      $oppClassInput.closest('.dropdown').find('.item').removeClass('active selected')
-      $myClassInput.closest('.dropdown').find('.item[data-value="' + myClass +'"]').addClass('active selected');
-      $oppClassInput.closest('.dropdown').find('.item[data-value="' + oppClass +'"]').addClass('active selected');
-    }
-  })
-
-  Template.statsTable.rendered = function() {
+  Template.matchUpStats.rendered = function() {
     this.$('td').popup({
       hoverable: true,
       delay: {
