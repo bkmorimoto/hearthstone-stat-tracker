@@ -18,6 +18,12 @@
   margin-top: 15px;
 }
 
+.results-data, .results-head {
+  border: 1px solid black;
+  text-align: center;
+  width: 250px;
+}
+
 th, td {
   border: 1px solid black;
   text-align: center;
