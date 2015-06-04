@@ -112,7 +112,7 @@
         <tr class="tr-heroClass">
           <th>{{heroClass}}</th>
           {{#each oppClassNames}}
-            <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-content="more stuff" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+            <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-content="Wins: {{getWins ../heroClass heroClass}} Losses: {{getLosses ../heroClass heroClass}}" data-variation="large" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
           {{/each}}
         </tr>
       {{/each}}

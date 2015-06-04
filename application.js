@@ -108,6 +108,12 @@ if (Meteor.isClient) {
     oppClassNames: function() {
       return HeroClasses.find();
     },
+    getWins: function(myClass, oppClass) {
+      return WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+    },
+    getLosses: function(myClass, oppClass) {
+      return WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
+    },
     winPercentage: function(myClass, oppClass) {
       var winCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
       var lossCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
