@@ -163,7 +163,11 @@ if (Meteor.isClient) {
 
   Template.statsTable.rendered = function() {
     this.$('td').popup({
-      hoverable: true
+      hoverable: true,
+      delay: {
+        show: 300,
+        hide: 300
+      }
     });
   }
 
