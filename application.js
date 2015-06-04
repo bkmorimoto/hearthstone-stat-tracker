@@ -18,10 +18,12 @@ if (Meteor.isClient) {
 
   Template.winPercentage.helpers({
     winPercentage: function() {
-      Session.set('winPercentage', (Session.get('winCount')/(Session.get('winCount') + Session.get('lossCount'))*100).toFixed(2))
-      if (!(Session.get('winPercentage') > 0)) {
+      var calcPercentage = (Session.get('winCount')/(Session.get('winCount') + Session.get('lossCount'))*100).toFixed(2)
+      if (calcPercentage > 0) {
+        Session.set('winPercentage', calcPercentage);
+      } else {
         var percentage = 0;
-        Session.set('winPercentage', percentage.toFixed(2))
+        Session.set('winPercentage', percentage.toFixed(2));
       }
       return Session.get('winPercentage');
     },
