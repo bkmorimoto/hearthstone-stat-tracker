@@ -1,7 +1,7 @@
-WinChart = new Mongo.Collection("winChart");
+
 
 if (Meteor.isClient) {
-
+  WinChart = new Mongo.Collection("winChart");
   HeroClasses = new Mongo.Collection("heroClasses");
 
   function formatDate(date) {
@@ -133,8 +133,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    // WinChart.remove({});
-   
+    WinChart = new Mongo.Collection("winChart");
     HeroClasses = new Mongo.Collection("heroClasses");
 
     if (HeroClasses.find().count() == 0) {
