@@ -60,6 +60,16 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.result.helpers({
+    getStatus: function(result) {
+      if (result == 'Win') {
+        return 'positive';
+      } else {
+        return 'negative';
+      }
+    }
+  })
+
   Template.classNames.events({
     'change input': function() {
       Session.set('myClass', $('input')[0].value);
