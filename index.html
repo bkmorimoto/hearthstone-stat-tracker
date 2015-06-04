@@ -66,13 +66,30 @@
 </template>
 
 <template name="results">
-  {{#each results}}
-    {{> result}}
-  {{/each}}
+  <table class="ui section stats-table">
+    <thead>
+      <tr>
+        <th class="results-head">My Class</th>
+        <th class="results-head">Opp Class</th>
+        <th class="results-head">Result</th>
+        <th class="results-head">DateTime</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each results}}
+        {{> result}}
+      {{/each}}
+    </tbody>
+  </table>
 </template>
 
 <template name="result">
-  <div>{{myClass}} vs. {{oppClass}} - {{result}} - {{createdAt}} </div>
+  <tr>
+    <td class="results-data">{{myClass}}</td>
+    <td class="results-data">{{oppClass}}</td>
+    <td class="results-data">{{result}}</td>
+    <td class="results-data">{{createdAt}}</td>
+  </tr>
 </template>
 
 <template name="winCount">
