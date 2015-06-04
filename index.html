@@ -37,8 +37,10 @@
       </div>
     </div>
 
-    <div class='ui section results-list'>
-      {{> results}}
+    <div class='ui centered grid'>
+      <div class='nine wide column'>
+        {{> results}}
+      </div>
     </div>
   </div>
 </body>
@@ -119,7 +121,7 @@
 </template>
 
 <template name="results">
-  <table class="ui section stats-table">
+  <table class="ui red celled structured four column table results-table">
     <thead>
       <tr>
         <th class="results-head">My Class</th>

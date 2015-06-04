@@ -15,11 +15,11 @@
   margin-top: 2rem;
 }
 
-.results-data, .results-head {
+/*.results-data, .results-head {
   border: 1px solid black;
   text-align: center;
   width: 250px;
-}
+}*/
 
 .ui.table .tr-heroClass th {
   cursor: auto;
