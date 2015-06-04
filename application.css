@@ -1,5 +1,6 @@
-.win-button {
-  margin-top: 10px;
+.container {
+  width: 90%;
+  margin: auto;
 }
 
 .loss-button {

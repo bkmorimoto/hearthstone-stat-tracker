@@ -3,49 +3,48 @@
 </head>
 
 <body>
-  <h1>Welcome to the Hearthstone Stats Calculator</h1>
-  
-  <div class="ui four column grid">
-    <div class="column">
-      <h3>My Class</h3>
-      {{> classNames}}
+  <div class='container'>
+    <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Calculator</h1>
+    
+    <div class='ui centered grid'>
+      <div class='three wide column'>
+        <h3>My Class</h3>
+        {{> classNames}}
+      </div>
+      <div class='three wide column'>
+        <h3>Opponent Class</h3>
+        {{> classNames}}
+      </div>
     </div>
-    <div class="column">
-      <h3>Opponent Class</h3>
-      {{> classNames}}
+  
+    <div class='ui centered grid'>
+      <div class='ui buttons results-buttons'>
+        {{> win}}
+        <div class='or'></div>
+        {{> loss}}
+      </div>
+    </div>
+
+    <div class='ui section stats-counts'>
+    {{> winCount }}
+    {{> lossCount }}
+    {{> winPercentage }}
+    </div>
+    
+    {{> statsTable }}
+
+    <div class='ui section results-list'>
+      {{> results}}
     </div>
   </div>
-
-  <div class="ui section results-buttons">
-  {{> win}}
-  {{> loss}}
-  </div>
-
-  <div class="ui section stats-counts">
-  {{> winCount }}
-  {{> lossCount }}
-  {{> winPercentage }}
-  </div>
-  
-  {{> statsTable }}
-
-  <div class="ui section results-list">
-    {{> results}}
-  </div>
-
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
-
 <template name="win">
-  <button class="ui button win-button">Win</button>
+  <button class="ui button positive win-button">Win</button>
 </template>
 
 <template name="loss">
-  <button class="ui button loss-button">Loss</button>
+  <button class="ui button negative loss-button">Loss</button>
 </template>
 
 <template name="classNames">
