@@ -18,22 +18,27 @@ if (Meteor.isClient) {
 
   Template.winPercentage.helpers({
     winPercentage: function() {
-      Session.set('winPercentage', (Session.get('winCount')/(Session.get('winCount') + Session.get('lossCount'))*100).toFixed(2))
+      var calcPercentage = (Session.get('winCount')/(Session.get('winCount') + Session.get('lossCount'))*100).toFixed(2)
+      if (calcPercentage > 0) {
+        Session.set('winPercentage', calcPercentage);
+      } else {
+        var percentage = 0;
+        Session.set('winPercentage', percentage.toFixed(2));
+      }
       return Session.get('winPercentage');
     },
     getStatusColor: function() {
       var winP = Session.get('winPercentage')
-      if (winP >= 80) {
+      if (winP >= 60) {
         return 'green'
-      }
-      else if (winP >= 60) {
+      } else if (winP >= 55) {
         return '#e4e821'
-      }
-      else if (winP >= 40) {
+      } else if (winP >= 50) {
         return 'orange'
-      }
-      else {
+      } else if (winP > 0) {
         return 'red'
+      } else {
+        return 'grey'
       }
     }
   })
@@ -71,7 +76,43 @@ if (Meteor.isClient) {
 
   Template.classNames.helpers({
     classNames: function() {
-      return HeroClasses.find();
+      return MyHeroClasses.find();
+    }
+  });
+
+  Template.statsTable.helpers({
+    myClassNames: function() {
+      return MyHeroClasses.find();
+    },
+    oppClassNames: function() {
+      return OppHeroClasses.find();
+    },
+    winPercentage: function(myClass, oppClass) {
+      var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
+      var lossCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "loss"}).count();
+      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
+      if (percentage > 0) {
+        return percentage;
+      } else {
+        percentage = 0;
+        return percentage.toFixed(2);
+      }
+    },
+    getBackgroundColor: function(myClass, oppClass) {
+      var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
+      var lossCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "loss"}).count();
+      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
+      if (percentage >= 60) {
+        return 'green'
+      } else if (percentage >= 55) {
+        return '#e4e821'
+      } else if (percentage >= 50) {
+        return 'orange'
+      } else if (percentage >= 0.00) {
+        return 'red'
+      } else {
+        return 'grey'
+      }
     }
   });
 
@@ -79,7 +120,9 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    WinChart.remove({});
+    // WinChart.remove({});
+    // MyHeroClasses.remove({});
+    // OppHeroClasses.remove({});
   });
 }
 
