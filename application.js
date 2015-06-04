@@ -42,14 +42,12 @@ if (Meteor.isClient) {
       var winP = Session.get('winPercentage')
       if (winP >= 60) {
         return 'green'
-      } else if (winP >= 55) {
-        return '#e4e821'
       } else if (winP >= 50) {
-        return 'orange'
+        return 'yellow'
       } else if (winP > 0) {
         return 'red'
       } else {
-        return 'grey'
+        return ''
       }
     }
   })
@@ -107,6 +105,37 @@ if (Meteor.isClient) {
     },
     oppClassNames: function() {
       return HeroClasses.find();
+    }
+  });
+
+  Template.statsTable.events({
+    'click td': function(event) {
+      var $target = $(event.target);
+      var myClass = $target.data('myClass');
+      var oppClass = $target.data('oppClass');
+      var $myClassInput = $('input').first();
+      var $oppClassInput = $('input').last();
+      $myClassInput.val(myClass);
+      $oppClassInput.val(oppClass);
+      Session.set('myClass', myClass);
+      Session.set('oppClass', oppClass);
+      $myClassInput.closest('.dropdown').children('.text').removeClass('default');
+      $oppClassInput.closest('.dropdown').children('.text').removeClass('default');
+      $myClassInput.closest('.dropdown').children('.text').html(myClass);
+      $oppClassInput.closest('.dropdown').children('.text').html(oppClass);
+      $myClassInput.closest('.dropdown').find('.item').removeClass('active selected')
+      $oppClassInput.closest('.dropdown').find('.item').removeClass('active selected')
+      $myClassInput.closest('.dropdown').find('.item[data-value="' + myClass +'"]').addClass('active selected');
+      $oppClassInput.closest('.dropdown').find('.item[data-value="' + oppClass +'"]').addClass('active selected');
+    }
+  })
+
+  Template.matchUpStats.helpers({
+    getWins: function(myClass, oppClass) {
+      return WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+    },
+    getLosses: function(myClass, oppClass) {
+      return WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
     },
     winPercentage: function(myClass, oppClass) {
       var winCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
@@ -117,22 +146,6 @@ if (Meteor.isClient) {
       } else {
         percentage = 0;
         return percentage.toFixed(2);
-      }
-    },
-    getBackgroundColor: function(myClass, oppClass) {
-      var winCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
-      var lossCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
-      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
-      if (percentage >= 60) {
-        return 'green'
-      } else if (percentage >= 55) {
-        return '#e4e821'
-      } else if (percentage >= 50) {
-        return 'orange'
-      } else if (percentage >= 0.00) {
-        return 'red'
-      } else {
-        return 'grey'
       }
     },
     getStatus: function(myClass, oppClass) {
@@ -150,6 +163,16 @@ if (Meteor.isClient) {
       }
     }
   });
+
+  Template.matchUpStats.rendered = function() {
+    this.$('td').popup({
+      hoverable: true,
+      delay: {
+        show: 300,
+        hide: 300
+      }
+    });
+  }
 
 }
 

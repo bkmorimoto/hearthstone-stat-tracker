@@ -4,8 +4,8 @@
 
 <body>
   <div class='container'>
-    <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Calculator</h1>
-    
+    <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
+
     <div class='ui centered grid'>
       <div class='three wide column'>
         <h3>My Class</h3>
@@ -17,7 +17,7 @@
       </div>
     </div>
   
-    <div class='ui centered aligned grid'>
+    <div class='ui centered grid'>
       <div class='ui buttons center align results-buttons'>
         {{> win}}
         <div class='or'></div>
@@ -26,9 +26,13 @@
     </div>
     
     <div class='ui centered grid stats-counts'>
-      {{> winCount }}
-      {{> lossCount }}
-      {{> winPercentage }}
+      <div class='ui statistics column center aligned'>
+        <div class='ui center aligned'>
+          {{> winCount }}
+          {{> lossCount }}
+          {{> winPercentage }}
+        </div>
+      </div>
     </div>
     
     <div class='ui centered grid'>
@@ -71,23 +75,23 @@
 </template>
 
 <template name="winCount">
-  <div class='ui blue big label'>
-    Wins
-    <div class='detail'>{{winCount}}</div>
+  <div class='ui green statistic'>
+    <div class='value'>{{winCount}}</div>
+    <div class='label'>Wins</div>
   </div>
 </template>
 
 <template name="lossCount">
-  <div class='ui blue big label'>
-    Losses
-    <div class='detail'>{{lossCount}}</div>
+  <div class='ui red statistic'>
+    <div class='value'>{{lossCount}}</div>
+    <div class='label'>Losses</div>
   </div>
 </template>
 
 <template name="winPercentage">
-  <div class='ui black big label'>
-    Win Percentage
-    <div class='detail'><span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
+  <div class='ui statistic {{getStatusColor}}'>
+    <div class='value'>{{winPercentage}}%</div>
+    <div class='label'>Win Percentage</div>
   </div>
 </template>
 
@@ -112,12 +116,16 @@
         <tr class="tr-heroClass">
           <th>{{heroClass}}</th>
           {{#each oppClassNames}}
-            <td class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+            {{> matchUpStats}}
           {{/each}}
         </tr>
       {{/each}}
     </tbody>
   </table>  
+</template>
+
+<template name="matchUpStats">
+  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-content="Wins: {{getWins ../heroClass heroClass}} Losses: {{getLosses ../heroClass heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
 </template>
 
 <template name="results">
