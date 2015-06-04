@@ -5,7 +5,7 @@
 <body>
   <div class='container'>
     <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
-    
+
     <div class='ui centered grid'>
       <div class='three wide column'>
         <h3>My Class</h3>
@@ -112,7 +112,7 @@
         <tr class="tr-heroClass">
           <th>{{heroClass}}</th>
           {{#each oppClassNames}}
-            <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+            <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-content="more stuff" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
           {{/each}}
         </tr>
       {{/each}}
