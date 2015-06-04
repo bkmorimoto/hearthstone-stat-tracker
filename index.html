@@ -17,8 +17,8 @@
       </div>
     </div>
   
-    <div class='ui centered grid'>
-      <div class='ui buttons results-buttons'>
+    <div class='ui centered aligned grid'>
+      <div class='ui buttons center align results-buttons'>
         {{> win}}
         <div class='or'></div>
         {{> loss}}
@@ -30,8 +30,12 @@
       {{> lossCount }}
       {{> winPercentage }}
     </div>
-
-    {{> statsTable }}
+    
+    <div class='ui centered grid'>
+      <div class='thirteen wide column'>
+        {{> statsTable }}
+      </div>
+    </div>
 
     <div class='ui section results-list'>
       {{> results}}
@@ -86,7 +90,7 @@
 </template>
 
 <template name="statsTable">
-  <table class="ui celled structured table stats-table">
+  <table class="ui blue celled structured ten column table stats-table">
     <thead>
       <tr>
         <th>Class</th>
@@ -106,7 +110,7 @@
         <tr class="tr-heroClass">
           <th>{{heroClass}}</th>
           {{#each oppClassNames}}
-            <td style="background:{{getBackgroundColor ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+            <td class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
           {{/each}}
         </tr>
       {{/each}}

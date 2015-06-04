@@ -124,6 +124,20 @@ if (Meteor.isClient) {
       } else {
         return 'grey'
       }
+    },
+    getStatus: function(myClass, oppClass) {
+      var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
+      var lossCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "loss"}).count();
+      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
+      if (percentage >= 60) {
+        return 'positive'
+      } else if (percentage >= 50) {
+        return 'warning'
+      } else if (percentage >= 0.00) {
+        return 'negative'
+      } else {
+        return 'no-results'
+      }
     }
   });
 
