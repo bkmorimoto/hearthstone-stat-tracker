@@ -29,17 +29,16 @@ if (Meteor.isClient) {
     },
     getStatusColor: function() {
       var winP = Session.get('winPercentage')
-      if (winP >= 80) {
+      if (winP >= 60) {
         return 'green'
-      }
-      else if (winP >= 60) {
+      } else if (winP >= 55) {
         return '#e4e821'
-      }
-      else if (winP >= 40) {
+      } else if (winP >= 50) {
         return 'orange'
-      }
-      else {
+      } else if (winP > 0) {
         return 'red'
+      } else {
+        return 'grey'
       }
     }
   })
