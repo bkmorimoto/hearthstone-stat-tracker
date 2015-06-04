@@ -15,14 +15,14 @@ if (Meteor.isClient) {
 
   Template.winCount.helpers({
     winCount: function() {
-      Session.set('winCount', WinChart.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "win"}).count())
+      Session.set('winCount', WinChart.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "Win"}).count())
       return Session.get('winCount');
     }
   })
 
   Template.lossCount.helpers({
     lossCount: function() {
-      Session.set('lossCount', WinChart.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "loss"}).count())
+      Session.set('lossCount', WinChart.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "Loss"}).count())
       return Session.get('lossCount');
     }
   })
@@ -60,6 +60,16 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.result.helpers({
+    getStatus: function(result) {
+      if (result == 'Win') {
+        return 'positive';
+      } else {
+        return 'negative';
+      }
+    }
+  })
+
   Template.classNames.events({
     'change input': function() {
       Session.set('myClass', $('input')[0].value);
@@ -69,13 +79,13 @@ if (Meteor.isClient) {
 
   Template.win.events({
     'click button': function () {
-      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "win", createdAt: formatDate(new Date()) })
+      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Win", createdAt: formatDate(new Date()) })
     }
   });
 
   Template.loss.events({
     'click button': function () {
-      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "loss", createdAt: formatDate(new Date()) })
+      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Loss", createdAt: formatDate(new Date()) })
     }
   });
 
@@ -99,8 +109,8 @@ if (Meteor.isClient) {
       return HeroClasses.find();
     },
     winPercentage: function(myClass, oppClass) {
-      var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
-      var lossCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "loss"}).count();
+      var winCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+      var lossCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
       if (percentage > 0) {
         return percentage;
@@ -110,8 +120,8 @@ if (Meteor.isClient) {
       }
     },
     getBackgroundColor: function(myClass, oppClass) {
-      var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
-      var lossCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "loss"}).count();
+      var winCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+      var lossCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
       if (percentage >= 60) {
         return 'green'
@@ -123,6 +133,20 @@ if (Meteor.isClient) {
         return 'red'
       } else {
         return 'grey'
+      }
+    },
+    getStatus: function(myClass, oppClass) {
+      var winCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+      var lossCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
+      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
+      if (percentage >= 60) {
+        return 'positive'
+      } else if (percentage >= 50) {
+        return 'warning'
+      } else if (percentage >= 0.00) {
+        return 'negative'
+      } else {
+        return 'no-results'
       }
     }
   });

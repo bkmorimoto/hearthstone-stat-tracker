@@ -3,54 +3,51 @@
 </head>
 
 <body>
-  <h1>Welcome to the Hearthstone Stats Calculator</h1>
-  
-  <div class="ui four column grid">
-    <div class="column">
-      <h3>My Class</h3>
-      {{> classNames}}
+  <div class='container'>
+    <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Calculator</h1>
+    
+    <div class='ui centered grid'>
+      <div class='three wide column'>
+        <h3>My Class</h3>
+        {{> classNames}}
+      </div>
+      <div class='three wide column'>
+        <h3>Opponent Class</h3>
+        {{> classNames}}
+      </div>
     </div>
-    <div class="column">
-      <h3>Opponent Class</h3>
-      {{> classNames}}
+  
+    <div class='ui centered aligned grid'>
+      <div class='ui buttons center align results-buttons'>
+        {{> win}}
+        <div class='or'></div>
+        {{> loss}}
+      </div>
+    </div>
+    
+    <div class='ui centered grid stats-counts'>
+      {{> winCount }}
+      {{> lossCount }}
+      {{> winPercentage }}
+    </div>
+    
+    <div class='ui centered grid'>
+      <div class='thirteen wide column'>
+        {{> statsTable }}
+      </div>
+    </div>
+
+    <div class='ui centered grid'>
+      <div class='nine wide column'>
+        {{> results}}
+      </div>
     </div>
   </div>
-
-  <div class="ui section results-buttons">
-  {{> win}}
-  {{> loss}}
-  </div>
-
-  <div class="ui section stats-counts">
-  {{> winCount }}
-  {{> lossCount }}
-  {{> winPercentage }}
-  </div>
-  
-  {{> statsTable }}
-
-  <div class="ui section results-list">
-    {{> results}}
-  </div>
-
 </body>
-
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
-
-<template name="win">
-  <button class="ui button win-button">Win</button>
-</template>
-
-<template name="loss">
-  <button class="ui button loss-button">Loss</button>
-</template>
 
 <template name="classNames">
   <div class="ui selection fluid dropdown">
-    <input type="hidden" name="class">
+    <input type="hidden" name="heroClass">
     <div class="default text">Class</div>
     <i class="dropdown icon"></i>
     <div class="menu">
@@ -62,50 +59,40 @@
 </template>
 
 <template name="className">
- <div class="item" name="heroClass">{{heroClass}}</div>
+ <div class="item" data-value="{{heroClass}}">{{heroClass}}</div>
 </template>
 
-<template name="results">
-  <table class="ui section stats-table">
-    <thead>
-      <tr>
-        <th class="results-head">My Class</th>
-        <th class="results-head">Opp Class</th>
-        <th class="results-head">Result</th>
-        <th class="results-head">DateTime</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each results}}
-        {{> result}}
-      {{/each}}
-    </tbody>
-  </table>
+<template name="win">
+  <button class="ui button positive win-button">Win</button>
 </template>
 
-<template name="result">
-  <tr>
-    <td class="results-data">{{myClass}}</td>
-    <td class="results-data">{{oppClass}}</td>
-    <td class="results-data">{{result}}</td>
-    <td class="results-data">{{createdAt}}</td>
-  </tr>
+<template name="loss">
+  <button class="ui button negative loss-button">Loss</button>
 </template>
 
 <template name="winCount">
-  <div>Wins: {{winCount}}</div>
+  <div class='ui blue big label'>
+    Wins
+    <div class='detail'>{{winCount}}</div>
+  </div>
 </template>
 
 <template name="lossCount">
-  <div>Losses: {{lossCount}}</div>
+  <div class='ui blue big label'>
+    Losses
+    <div class='detail'>{{lossCount}}</div>
+  </div>
 </template>
 
 <template name="winPercentage">
-  <div>Win Percentage: <span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
+  <div class='ui black big label'>
+    Win Percentage
+    <div class='detail'><span style="color:{{getStatusColor}}">{{winPercentage}}%</span></div>
+  </div>
 </template>
 
 <template name="statsTable">
-  <table class="ui section stats-table">
+  <table class="ui blue celled structured ten column table stats-table">
     <thead>
       <tr>
         <th>Class</th>
@@ -122,13 +109,40 @@
     </thead>
     <tbody>
       {{#each myClassNames}}
-        <tr class="tr-{{heroClass}}">
-          <td>{{heroClass}}</td>
+        <tr class="tr-heroClass">
+          <th>{{heroClass}}</th>
           {{#each oppClassNames}}
-            <td style="background:{{getBackgroundColor ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+            <td class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
           {{/each}}
         </tr>
       {{/each}}
     </tbody>
   </table>  
+</template>
+
+<template name="results">
+  <table class="ui red celled structured four column table results-table">
+    <thead>
+      <tr>
+        <th>Class</th>
+        <th>Opponent</th>
+        <th>Result</th>
+        <th>DateTime</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each results}}
+        {{> result}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="result">
+  <tr class="{{getStatus result}}">
+    <td>{{myClass}}</td>
+    <td>{{oppClass}}</td>
+    <td>{{result}}</td>
+    <td>{{createdAt}}</td>
+  </tr>
 </template>
