@@ -129,13 +129,14 @@
 </template>
 
 <template name="results">
-  <table class="ui red celled structured four column table results-table">
+  <table class="ui red four column table results-table">
     <thead>
       <tr>
         <th>Class</th>
         <th>Opponent</th>
         <th>Result</th>
         <th>DateTime</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -152,5 +153,6 @@
     <td>{{oppClass}}</td>
     <td>{{result}}</td>
     <td>{{createdAt}}</td>
+    <td><div class='ui circular red basic icon button'><i class='remove icon'></i></div></td>
   </tr>
 </template>
