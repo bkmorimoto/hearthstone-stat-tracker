@@ -156,7 +156,13 @@ if (Meteor.isClient) {
       $oppClassInput.closest('.dropdown').find('.item[data-value="' + oppClass +'"]').addClass('active selected');
     }
   })
-  
+
+  Template.statsTable.rendered = function() {
+    this.$('td').popup({
+      hoverable: true
+    });
+  }
+
 }
 
 if (Meteor.isServer) {
