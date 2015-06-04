@@ -1,13 +1,13 @@
-WinChart = new Mongo.Collection("winChart");
-
 if (Meteor.isClient) {
+  WinChart = new Mongo.Collection("winChart");
+  HeroClasses = new Mongo.Collection("heroClasses");
 
   function formatDate(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
+    hours = hours ? hours : 12;
     minutes = minutes < 10 ? '0'+minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
@@ -87,16 +87,16 @@ if (Meteor.isClient) {
 
   Template.classNames.helpers({
     classNames: function() {
-      return MyHeroClasses.find();
+      return HeroClasses.find();
     }
   });
 
   Template.statsTable.helpers({
     myClassNames: function() {
-      return MyHeroClasses.find();
+      return HeroClasses.find();
     },
     oppClassNames: function() {
-      return OppHeroClasses.find();
+      return HeroClasses.find();
     },
     winPercentage: function(myClass, oppClass) {
       var winCount = WinChart.find({myClass: myClass.toLowerCase(), oppClass: oppClass.toLowerCase(), result: "win"}).count();
@@ -131,9 +131,20 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    // WinChart.remove({});
-    // MyHeroClasses.remove({});
-    // OppHeroClasses.remove({});
+    WinChart = new Mongo.Collection("winChart");
+    HeroClasses = new Mongo.Collection("heroClasses");
+
+    if (HeroClasses.find().count() == 0) {
+      HeroClasses.insert({ heroClass: "Druid" });
+      HeroClasses.insert({ heroClass: "Hunter" });
+      HeroClasses.insert({ heroClass: "Mage" });
+      HeroClasses.insert({ heroClass: "Paladin" });
+      HeroClasses.insert({ heroClass: "Priest" });
+      HeroClasses.insert({ heroClass: "Rogue" })
+      HeroClasses.insert({ heroClass: "Shaman" });
+      HeroClasses.insert({ heroClass: "Warlock" });
+      HeroClasses.insert({ heroClass: "Warrior" });
+    }
   });
 }
 
