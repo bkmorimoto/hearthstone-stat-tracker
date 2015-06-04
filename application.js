@@ -2,6 +2,17 @@ WinChart = new Mongo.Collection("winChart");
 
 if (Meteor.isClient) {
 
+  function formatDate(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+  }
+
   Template.winCount.helpers({
     winCount: function() {
       Session.set('winCount', WinChart.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "win"}).count())
@@ -58,13 +69,13 @@ if (Meteor.isClient) {
 
   Template.win.events({
     'click button': function () {
-      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "win", createdAt: new Date() })
+      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "win", createdAt: formatDate(new Date()) })
     }
   });
 
   Template.loss.events({
     'click button': function () {
-      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "loss", createdAt: new Date() })
+      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "loss", createdAt: formatDate(new Date()) })
     }
   });
 
