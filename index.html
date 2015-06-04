@@ -86,7 +86,7 @@
 </template>
 
 <template name="statsTable">
-  <table class="ui section stats-table">
+  <table class="ui celled structured table stats-table">
     <thead>
       <tr>
         <th>Class</th>
@@ -103,8 +103,8 @@
     </thead>
     <tbody>
       {{#each myClassNames}}
-        <tr class="tr-{{heroClass}}">
-          <td>{{heroClass}}</td>
+        <tr class="tr-heroClass">
+          <th>{{heroClass}}</th>
           {{#each oppClassNames}}
             <td style="background:{{getBackgroundColor ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
           {{/each}}
