@@ -18,6 +18,13 @@ if (Meteor.isClient) {
     getResultsCount = function(myClass, oppClass, result) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
     }
+
+    HeroClasses.find().forEach(function(myClass) {
+      HeroClasses.find().forEach(function(oppClass) {
+        Session.set(myClass.heroClass + oppClass.heroClass + 'Wins', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Win'));
+        Session.set(myClass.heroClass + oppClass.heroClass + 'Losses', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Loss'));
+      })
+    })
   }
 
   Template.classDropdown.helpers({
