@@ -144,14 +144,14 @@ if (Meteor.isClient) {
       }
     },
     getStatus: function(myClass, oppClass) {
-      var winCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
-      var lossCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
+      var winCount = getResultsCount(myClass, oppClass, 'Win');
+      var lossCount = getResultsCount(myClass, oppClass, 'Loss');
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
       if (percentage >= 60) {
         return 'positive'
       } else if (percentage >= 50) {
         return 'warning'
-      } else if (percentage >= 0.00) {
+      } else if (percentage >= 0) {
         return 'negative'
       } else {
         return 'no-results'
