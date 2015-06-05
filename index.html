@@ -23,18 +23,18 @@
   <div class='ui centered grid'>
     <div class='three wide column'>
       <h3>My Class</h3>
-      {{> classNames}}
+      {{> classDropdown type='myClass'}}
     </div>
     <div class='three wide column'>
       <h3>Opponent Class</h3>
-      {{> classNames}}
+      {{> classDropdown type='oppClass'}}
     </div>
   </div>
 </template>
 
-<template name="classNames">
+<template name="classDropdown">
   <div class="ui selection fluid dropdown">
-    <input type="hidden" name="heroClass">
+    <input id="{{type}}" type="hidden" name="heroClass">
     <div class="default text">Class</div>
     <i class="dropdown icon"></i>
     <div class="menu">
@@ -52,19 +52,11 @@
 <template name='winLossButtons'>
   <div class='ui centered grid'>
     <div class='ui buttons center align results-buttons'>
-      {{> win}}
+      <button class="ui button positive win-button">Win</button>
       <div class='or'></div>
-      {{> loss}}
+      <button class="ui button negative loss-button">Loss</button>
     </div>
   </div>
-</template>
-
-<template name="win">
-  <button class="ui button positive win-button">Win</button>
-</template>
-
-<template name="loss">
-  <button class="ui button negative loss-button">Loss</button>
 </template>
 
 <template name='resultStats'>

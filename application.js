@@ -1,5 +1,5 @@
 if (Meteor.isClient) {
-  WinChart = new Mongo.Collection("winChart");
+  Results = new Mongo.Collection("results");
   HeroClasses = new Mongo.Collection("heroClasses");
 
   function formatDate(date) {
@@ -13,16 +13,48 @@ if (Meteor.isClient) {
     return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
   }
 
+  Template.classDropdown.helpers({
+    classNames: function() {
+      return HeroClasses.find();
+    }
+  });
+
+  Template.classDropdown.events({
+    'change #myClass': function() {
+      Session.set('myClass', $('#myClass').val());
+    },
+    'change #oppClass': function() {
+      Session.set('oppClass', $('#oppClass').val());
+    }
+  })
+
+  Template.className.rendered = function() {
+    $('.ui.selection.dropdown')
+    .dropdown('restore default text')
+    ;
+  };
+
+  Template.winLossButtons.events({
+    'click .win-button': function() {
+      Results.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Win", createdAt: formatDate(new Date()) })
+      needRender.set();
+    },
+    'click .loss-button': function() {
+      Results.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Loss", createdAt: formatDate(new Date()) })
+      needRender.set();
+    }
+  }); 
+
   Template.winCount.helpers({
     winCount: function() {
-      Session.set('winCount', WinChart.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "Win"}).count())
+      Session.set('winCount', Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "Win"}).count())
       return Session.get('winCount');
     }
   })
 
   Template.lossCount.helpers({
     lossCount: function() {
-      Session.set('lossCount', WinChart.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "Loss"}).count())
+      Session.set('lossCount', Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), result: "Loss"}).count())
       return Session.get('lossCount');
     }
   })
@@ -54,7 +86,7 @@ if (Meteor.isClient) {
 
   Template.results.helpers({
     results: function() {
-      return WinChart.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')});
+      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')});
     }
   })
 
@@ -72,43 +104,10 @@ if (Meteor.isClient) {
     'click button': function(event) {
       var $target = $(event.target);
       var entryId = $target.closest('button').data('id')
-      WinChart.remove({'_id': entryId})
+      Results.remove({'_id': entryId})
       needRender.set();
     }
   })
-
-  Template.classNames.events({
-    'change input': function() {
-      Session.set('myClass', $('input')[0].value);
-      Session.set('oppClass', $('input')[1].value);
-    }
-  })
-
-  Template.win.events({
-    'click button': function() {
-      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Win", createdAt: formatDate(new Date()) })
-      needRender.set();
-    }
-  });
-
-  Template.loss.events({
-    'click button': function() {
-      WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Loss", createdAt: formatDate(new Date()) })
-      needRender.set();
-    }
-  });
-
-  Template.className.rendered = function() {
-    $('.ui.selection.dropdown')
-    .dropdown('restore default text')
-    ;
-  };
-
-  Template.classNames.helpers({
-    classNames: function() {
-      return HeroClasses.find();
-    }
-  });
 
   Template.statsTable.helpers({
     myClassNames: function() {
@@ -166,14 +165,14 @@ if (Meteor.isClient) {
 
   Template.matchUpStats.helpers({
     getWins: function(myClass, oppClass) {
-      return WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+      return Results.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
     },
     getLosses: function(myClass, oppClass) {
-      return WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
+      return Results.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
     },
     winPercentage: function(myClass, oppClass) {
-      var winCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
-      var lossCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
+      var winCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+      var lossCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
       if (percentage > 0) {
         return percentage;
@@ -183,8 +182,8 @@ if (Meteor.isClient) {
       }
     },
     getStatus: function(myClass, oppClass) {
-      var winCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
-      var lossCount = WinChart.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
+      var winCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+      var lossCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
       if (percentage >= 60) {
         return 'positive'
@@ -202,7 +201,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    WinChart = new Mongo.Collection("winChart");
+    Results = new Mongo.Collection("results");
     HeroClasses = new Mongo.Collection("heroClasses");
 
     if (HeroClasses.find().count() == 0) {
