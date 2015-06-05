@@ -43,7 +43,7 @@ if (Meteor.isClient) {
       Results.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Loss", createdAt: formatDate(new Date()) })
       needRender.set();
     }
-  }); 
+  });
 
   Template.winCount.helpers({
     winCount: function() {
@@ -71,41 +71,16 @@ if (Meteor.isClient) {
       return Session.get('winPercentage');
     },
     getStatusColor: function() {
-      var winP = Session.get('winPercentage')
-      if (winP >= 60) {
+      var winPercentage = Session.get('winPercentage')
+      if (winPercentage >= 60) {
         return 'green'
-      } else if (winP >= 50) {
+      } else if (winPercentage >= 50) {
         return 'yellow'
-      } else if (winP > 0) {
+      } else if (winPercentage > 0) {
         return 'red'
       } else {
         return ''
       }
-    }
-  })
-
-  Template.results.helpers({
-    results: function() {
-      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')});
-    }
-  })
-
-  Template.result.helpers({
-    getStatus: function(result) {
-      if (result == 'Win') {
-        return 'positive';
-      } else {
-        return 'negative';
-      }
-    }
-  })
-
-  Template.result.events({
-    'click button': function(event) {
-      var $target = $(event.target);
-      var entryId = $target.closest('button').data('id')
-      Results.remove({'_id': entryId})
-      needRender.set();
     }
   })
 
@@ -142,8 +117,7 @@ if (Meteor.isClient) {
 
   Template.matchUpStats.created = function() {
     needRender = new ReactiveVar();
-  }
-
+  };
 
   Template.matchUpStats.rendered = function() {
     var that = this;
@@ -161,7 +135,7 @@ if (Meteor.isClient) {
         });
       })
     })
-  }
+  };
 
   Template.matchUpStats.helpers({
     getWins: function(myClass, oppClass) {
@@ -197,6 +171,30 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.results.helpers({
+    results: function() {
+      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')});
+    }
+  });
+
+  Template.result.helpers({
+    getStatus: function(result) {
+      if (result == 'Win') {
+        return 'positive';
+      } else {
+        return 'negative';
+      }
+    }
+  });
+
+  Template.result.events({
+    'click button': function(event) {
+      var $target = $(event.target);
+      var entryId = $target.closest('button').data('id')
+      Results.remove({'_id': entryId})
+      needRender.set();
+    }
+  });
 }
 
 if (Meteor.isServer) {

@@ -4,20 +4,16 @@
 
 <body>
   <div class='container'>
-    {{> hstracker}}
+    <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
+    
+    {{> classPicks}}
+    {{> winLossButtons}}
+    {{> resultStats}}
+      
+    {{> statsTable}}  
+    {{> results}}
   </div>
 </body>
-
-<template name='hstracker'>
-  <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
-  
-  {{> classPicks}}
-  {{> winLossButtons}}
-  {{> resultStats}}
-    
-  {{> statsTable }}  
-  {{> results}}
-</template>
 
 <template name='classPicks'>
   <div class='ui centered grid'>
