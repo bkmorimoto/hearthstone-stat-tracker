@@ -68,6 +68,15 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.result.events({
+    'click button': function(event) {
+      var $target = $(event.target);
+      var entryId = $target.closest('button').data('id')
+      WinChart.remove({'_id': entryId})
+      needRender.set();
+    }
+  })
+
   Template.classNames.events({
     'change input': function() {
       Session.set('myClass', $('input')[0].value);
@@ -76,14 +85,16 @@ if (Meteor.isClient) {
   })
 
   Template.win.events({
-    'click button': function () {
+    'click button': function() {
       WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Win", createdAt: formatDate(new Date()) })
+      needRender.set();
     }
   });
 
   Template.loss.events({
-    'click button': function () {
+    'click button': function() {
       WinChart.insert({ myClass: $('input')[0].value, oppClass: $('input')[1].value, result: "Loss", createdAt: formatDate(new Date()) })
+      needRender.set();
     }
   });
 
@@ -130,6 +141,29 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.matchUpStats.created = function() {
+    needRender = new ReactiveVar();
+  }
+
+
+  Template.matchUpStats.rendered = function() {
+    var that = this;
+    this.autorun(function() {
+      needRender.get();
+      needRender.set('');
+      Tracker.afterFlush(function() {
+        that.$('td').popup({
+          content: "Wins: " + that.$('td').attr('data-wins') + " Losses: " + that.$('td').attr('data-losses'),
+          hoverable: true,
+          delay: {
+            show: 300,
+            hide: 300
+          }
+        });
+      })
+    })
+  }
+
   Template.matchUpStats.helpers({
     getWins: function(myClass, oppClass) {
       return WinChart.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
@@ -163,16 +197,6 @@ if (Meteor.isClient) {
       }
     }
   });
-
-  Template.matchUpStats.rendered = function() {
-    this.$('td').popup({
-      hoverable: true,
-      delay: {
-        show: 300,
-        hide: 300
-      }
-    });
-  }
 
 }
 
