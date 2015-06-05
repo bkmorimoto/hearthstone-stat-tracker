@@ -125,7 +125,7 @@
 </template>
 
 <template name="matchUpStats">
-  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-content="Wins: {{getWins ../heroClass heroClass}} Losses: {{getLosses ../heroClass heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-wins="{{getWins ../heroClass heroClass}}" data-losses="{{getLosses ../heroClass heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
 </template>
 
 <template name="results">
