@@ -3,19 +3,21 @@ if (Meteor.isClient) {
   HeroClasses = new Mongo.Collection("heroClasses");
   needRender = new ReactiveVar();
 
-  var formatDate = function(date) {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
-    return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
-  }
+  Template.hstracker.created = function() {
+    formatDate = function(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
 
-  var getResultsCount = function(myClass, oppClass, result) {
-    return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
+    getResultsCount = function(myClass, oppClass, result) {
+      return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
+    }
   }
 
   Template.classDropdown.helpers({
