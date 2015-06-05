@@ -85,10 +85,7 @@ if (Meteor.isClient) {
   })
 
   Template.statsTable.helpers({
-    myClassNames: function() {
-      return HeroClasses.find();
-    },
-    oppClassNames: function() {
+    classNames: function() {
       return HeroClasses.find();
     }
   });

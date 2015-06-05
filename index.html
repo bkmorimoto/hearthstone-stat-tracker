@@ -107,10 +107,10 @@
           </tr>
         </thead>
         <tbody>
-          {{#each myClassNames}}
+          {{#each classNames}}
             <tr class="tr-heroClass">
               <th>{{heroClass}}</th>
-              {{#each oppClassNames}}
+              {{#each classNames}}
                 {{> matchUpStats}}
               {{/each}}
             </tr>
