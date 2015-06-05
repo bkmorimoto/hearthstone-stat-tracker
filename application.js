@@ -14,7 +14,7 @@ if (Meteor.isClient) {
     return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
   }
 
-  var getResults = function(myClass, oppClass, result) {
+  var getResultsCount = function(myClass, oppClass, result) {
     return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
   }
 
@@ -52,14 +52,14 @@ if (Meteor.isClient) {
 
   Template.winCount.helpers({
     winCount: function() {
-      Session.set('winCount', getResults(Session.get('myClass'), Session.get('oppClass'), 'Win'))
+      Session.set('winCount', getResultsCount(Session.get('myClass'), Session.get('oppClass'), 'Win'))
       return Session.get('winCount');
     }
   })
 
   Template.lossCount.helpers({
     lossCount: function() {
-      Session.set('lossCount', getResults(Session.get('myClass'), Session.get('oppClass'), 'Loss'))
+      Session.set('lossCount', getResultsCount(Session.get('myClass'), Session.get('oppClass'), 'Loss'))
       return Session.get('lossCount');
     }
   })
@@ -127,15 +127,15 @@ if (Meteor.isClient) {
 
   Template.matchUpStats.helpers({
     getWins: function(myClass, oppClass) {
-      return Results.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+      return getResultsCount(myClass, oppClass, 'Win');
     },
     getLosses: function(myClass, oppClass) {
-      return Results.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
+      return getResultsCount(myClass, oppClass, 'Loss');
     },
     winPercentage: function(myClass, oppClass) {
-      var winCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
-      var lossCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
-      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
+      var winCount = getResultsCount(myClass, oppClass, 'Win');
+      var lossCount = getResultsCount(myClass, oppClass, 'Loss');
+      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2);
       if (percentage > 0) {
         return percentage;
       } else {
