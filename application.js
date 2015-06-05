@@ -68,6 +68,14 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.result.events({
+    'click button': function(event) {
+      var $target = $(event.target);
+      var entryId = $target.closest('button').data('id')
+      WinChart.remove({'_id': entryId})
+    }
+  })
+
   Template.classNames.events({
     'change input': function() {
       Session.set('myClass', $('input')[0].value);
