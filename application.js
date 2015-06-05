@@ -3,7 +3,7 @@ if (Meteor.isClient) {
   HeroClasses = new Mongo.Collection("heroClasses");
   needRender = new ReactiveVar();
 
-  function formatDate(date) {
+  var formatDate = function(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var ampm = hours >= 12 ? 'pm' : 'am';
@@ -12,6 +12,10 @@ if (Meteor.isClient) {
     minutes = minutes < 10 ? '0'+minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+  }
+
+  var getResults = function(myClass, oppClass, result) {
+    Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
   }
 
   Template.classDropdown.helpers({
@@ -129,7 +133,7 @@ if (Meteor.isClient) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
     },
     winPercentage: function(myClass, oppClass) {
-      var winCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Win"}).count();
+      var winCount = this.getWins(myClass, oppClass);
       var lossCount = Results.find({myClass: myClass, oppClass: oppClass, result: "Loss"}).count();
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
       if (percentage > 0) {
