@@ -102,8 +102,8 @@ if (Meteor.isClient) {
       var oppClass = $target.data('oppClass');
       Session.set('myClass', myClass);
       Session.set('oppClass', oppClass);
-      $('.dropdown.myClass').first().dropdown('set selected', myClass)
-      $('.dropdown.oppClass').first().dropdown('set selected', oppClass)
+      $('.dropdown.myClass').first().dropdown('set selected', myClass);
+      $('.dropdown.oppClass').first().dropdown('set selected', oppClass);
     }
   })
 
@@ -113,8 +113,9 @@ if (Meteor.isClient) {
       needRender.get();
       needRender.set('');
       Tracker.afterFlush(function() {
-        that.$('td').popup({
-          content: "Wins: " + that.$('td').attr('data-wins') + " Losses: " + that.$('td').attr('data-losses'),
+        var $target = that.$('td');
+        $target.popup({
+          content: "Wins: " + $target.attr('data-wins') + " Losses: " + $target.attr('data-losses'),
           hoverable: true,
           delay: {
             show: 300,
@@ -148,13 +149,13 @@ if (Meteor.isClient) {
       var lossCount = getResultsCount(myClass, oppClass, 'Loss');
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
       if (percentage >= 60) {
-        return 'positive'
+        return 'positive';
       } else if (percentage >= 50) {
-        return 'warning'
+        return 'warning';
       } else if (percentage >= 0) {
-        return 'negative'
+        return 'negative';
       } else {
-        return 'no-results'
+        return 'no-results';
       }
     }
   });
