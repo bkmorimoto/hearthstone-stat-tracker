@@ -1,6 +1,7 @@
 if (Meteor.isClient) {
   Results = new Mongo.Collection("results");
   HeroClasses = new Mongo.Collection("heroClasses");
+  needRender = new ReactiveVar();
 
   function formatDate(date) {
     var hours = date.getHours();
@@ -101,10 +102,6 @@ if (Meteor.isClient) {
       $('.dropdown.oppClass').first().dropdown('set selected', oppClass)
     }
   })
-
-  Template.matchUpStats.created = function() {
-    needRender = new ReactiveVar();
-  };
 
   Template.matchUpStats.rendered = function() {
     var that = this;
