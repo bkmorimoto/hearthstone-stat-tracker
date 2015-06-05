@@ -91,24 +91,14 @@ if (Meteor.isClient) {
   });
 
   Template.statsTable.events({
-    'click td': function(event) {
+    'click td': function(event, template) {
       var $target = $(event.target);
       var myClass = $target.data('myClass');
       var oppClass = $target.data('oppClass');
-      var $myClassInput = $('input').first();
-      var $oppClassInput = $('input').last();
-      $myClassInput.val(myClass);
-      $oppClassInput.val(oppClass);
       Session.set('myClass', myClass);
       Session.set('oppClass', oppClass);
-      $myClassInput.closest('.dropdown').children('.text').removeClass('default');
-      $oppClassInput.closest('.dropdown').children('.text').removeClass('default');
-      $myClassInput.closest('.dropdown').children('.text').html(myClass);
-      $oppClassInput.closest('.dropdown').children('.text').html(oppClass);
-      $myClassInput.closest('.dropdown').find('.item').removeClass('active selected')
-      $oppClassInput.closest('.dropdown').find('.item').removeClass('active selected')
-      $myClassInput.closest('.dropdown').find('.item[data-value="' + myClass +'"]').addClass('active selected');
-      $oppClassInput.closest('.dropdown').find('.item[data-value="' + oppClass +'"]').addClass('active selected');
+      $('.dropdown.myClass').first().dropdown('set selected', myClass)
+      $('.dropdown.oppClass').first().dropdown('set selected', oppClass)
     }
   })
 
