@@ -51,43 +51,45 @@ if (Meteor.isClient) {
   Template.winLossButtons.events({
     'click .win-button': function() {
       Results.insert({ myClass: $('#myClass').val(), oppClass: $('#oppClass').val(), result: "Win", createdAt: formatDate(new Date()) })
-      Session.set($('#myClass').val() + $('#oppClass').val() + 'Wins', parseInt(Session.get($('#myClass').val() + $('#oppClass').val() + 'Wins')) + 1);
+      Session.set($('#myClass').val() + $('#oppClass').val() + 'Wins', Session.get($('#myClass').val() + $('#oppClass').val() + 'Wins') + 1);
       needRender.set();
     },
     'click .loss-button': function() {
       Results.insert({ myClass: $('#myClass').val(), oppClass: $('#oppClass').val(), result: "Loss", createdAt: formatDate(new Date()) })
-      Session.set($('#myClass').val() + $('#oppClass').val() + 'Losses', parseInt(Session.get($('#myClass').val() + $('#oppClass').val() + 'Losses')) + 1)
+      Session.set($('#myClass').val() + $('#oppClass').val() + 'Losses', Session.get($('#myClass').val() + $('#oppClass').val() + 'Losses') + 1)
       needRender.set();
     }
   });
 
   Template.winCount.helpers({
     winCount: function() {
-      Session.set('winCount', getResultsCount(Session.get('myClass'), Session.get('oppClass'), 'Win'))
-      return Session.get('winCount');
+      return Session.get(Session.get('myClass') + Session.get('oppClass') + 'Wins')
     }
   })
 
   Template.lossCount.helpers({
     lossCount: function() {
-      Session.set('lossCount', getResultsCount(Session.get('myClass'), Session.get('oppClass'), 'Loss'))
-      return Session.get('lossCount');
+      return Session.get(Session.get('myClass') + Session.get('oppClass') + 'Losses')
     }
   })
 
   Template.winPercentage.helpers({
     winPercentage: function() {
-      var calcPercentage = (Session.get('winCount')/(Session.get('winCount') + Session.get('lossCount'))*100).toFixed(2)
+      var matchUp = Session.get('myClass') + Session.get('oppClass');
+      var winCount = Session.get(matchUp + 'Wins');
+      var lossCount = Session.get(matchUp + 'Losses');
+      var calcPercentage = (winCount/(winCount + lossCount)*100).toFixed(2);
       if (calcPercentage > 0) {
-        Session.set('winPercentage', calcPercentage);
+        Session.set(matchUp + 'winPercentage', calcPercentage);
       } else {
         var percentage = 0;
-        Session.set('winPercentage', percentage.toFixed(2));
+        Session.set(matchUp + 'winPercentage', percentage.toFixed(2));
       }
-      return Session.get('winPercentage');
+      return Session.get(matchUp + 'winPercentage');
     },
     getStatusColor: function() {
-      var winPercentage = Session.get('winPercentage')
+      var matchUp = Session.get('myClass') + Session.get('oppClass');
+      var winPercentage = Session.get(matchUp + 'winPercentage');
       if (winPercentage >= 60) {
         return 'green'
       } else if (winPercentage >= 50) {
