@@ -10,7 +10,7 @@ if (Meteor.isClient) {
     calcWinPercentage = function(matchUp) {
       var winCount = Session.get(matchUp + 'Wins');
       var lossCount = Session.get(matchUp + 'Losses');
-      return (winCount/(winCount + lossCount)*100).toFixed(2);
+      return (winCount/(winCount + lossCount)*100);
     }
   })
 
@@ -77,12 +77,8 @@ if (Meteor.isClient) {
     winPercentage: function() {
       var matchUp = Session.get('myClass') + Session.get('oppClass');
       var calcPercentage = calcWinPercentage(matchUp);
-      if (calcPercentage > 0) {
-        Session.set(matchUp + 'winPercentage', calcPercentage);
-      } else {
-        var percentage = 0;
-        Session.set(matchUp + 'winPercentage', percentage.toFixed(2));
-      }
+      if (isNaN(calcPercentage)) {calcPercentage = 0}
+      Session.set(matchUp + 'winPercentage', calcPercentage.toFixed(2));
       return Session.get(matchUp + 'winPercentage');
     },
     getStatusColor: function() {
@@ -105,18 +101,15 @@ if (Meteor.isClient) {
   })
 
   Template.statsTable.onRendered(function() {
+    console.log(HeroClasses.find().fetch())
     HeroClasses.find().forEach(function(myClass) {
       HeroClasses.find().forEach(function(oppClass) {
         var matchUp = myClass.heroClass + oppClass.heroClass;
         Session.set(matchUp + 'Wins', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Win'));
         Session.set(matchUp + 'Losses', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Loss'));
         var calcPercentage = calcWinPercentage(matchUp);
-        if (calcPercentage > 0) {
-          Session.set(matchUp + 'winPercentage', calcPercentage);
-        } else {
-          var percentage = 0;
-          Session.set(matchUp + 'winPercentage', percentage.toFixed(2));
-        }
+        if (isNaN(calcPercentage)) {calcPercentage = 0}
+        Session.set(matchUp + 'winPercentage', calcPercentage.toFixed(2));
       })
     })
   })
