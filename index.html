@@ -4,54 +4,37 @@
 
 <body>
   <div class='container'>
-    <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
-
-    <div class='ui centered grid'>
-      <div class='three wide column'>
-        <h3>My Class</h3>
-        {{> classNames}}
-      </div>
-      <div class='three wide column'>
-        <h3>Opponent Class</h3>
-        {{> classNames}}
-      </div>
-    </div>
-  
-    <div class='ui centered grid'>
-      <div class='ui buttons center align results-buttons'>
-        {{> win}}
-        <div class='or'></div>
-        {{> loss}}
-      </div>
-    </div>
-    
-    <div class='ui centered grid stats-counts'>
-      <div class='ui statistics column center aligned'>
-        <div class='ui center aligned'>
-          {{> winCount }}
-          {{> lossCount }}
-          {{> winPercentage }}
-        </div>
-      </div>
-    </div>
-    
-    <div class='ui centered grid'>
-      <div class='thirteen wide column'>
-        {{> statsTable }}
-      </div>
-    </div>
-
-    <div class='ui centered grid'>
-      <div class='nine wide column'>
-        {{> results}}
-      </div>
-    </div>
+    {{> hstracker}}
   </div>
 </body>
 
-<template name="classNames">
-  <div class="ui selection fluid dropdown">
-    <input type="hidden" name="heroClass">
+<template name='hstracker'>
+  <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
+  
+  {{> classPicks}}
+  {{> winLossButtons}}
+  {{> resultStats}}
+    
+  {{> statsTable}}  
+  {{> results}}
+</template>
+
+<template name='classPicks'>
+  <div class='ui centered grid'>
+    <div class='three wide column'>
+      <h3 class='ui header'>My Class</h3>
+      {{> classDropdown type='myClass'}}
+    </div>
+    <div class='three wide column'>
+      <h3 class='ui header'>Opponent Class</h3>
+      {{> classDropdown type='oppClass'}}
+    </div>
+  </div>
+</template>
+
+<template name="classDropdown">
+  <div class="ui selection fluid dropdown {{type}}">
+    <input id="{{type}}" type="hidden" name="heroClass">
     <div class="default text">Class</div>
     <i class="dropdown icon"></i>
     <div class="menu">
@@ -66,12 +49,26 @@
  <div class="item" data-value="{{heroClass}}">{{heroClass}}</div>
 </template>
 
-<template name="win">
-  <button class="ui button positive win-button">Win</button>
+<template name='winLossButtons'>
+  <div class='ui centered grid'>
+    <div class='ui buttons center align results-buttons'>
+      <button class="ui button positive win-button">Win</button>
+      <div class='or'></div>
+      <button class="ui button negative loss-button">Loss</button>
+    </div>
+  </div>
 </template>
 
-<template name="loss">
-  <button class="ui button negative loss-button">Loss</button>
+<template name='resultStats'>
+  <div class='ui centered grid stats-counts'>
+    <div class='ui statistics column center aligned'>
+      <div class='ui center aligned'>
+        {{> winCount }}
+        {{> lossCount }}
+        {{> winPercentage }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="winCount">
@@ -96,54 +93,78 @@
 </template>
 
 <template name="statsTable">
-  <table class="ui blue celled structured ten column table stats-table">
-    <thead>
-      <tr>
-        <th>Class</th>
-        <th>Druid</th>
-        <th>Hunter</th>
-        <th>Mage</th>
-        <th>Paladin</th>
-        <th>Priest</th>
-        <th>Rogue</th>
-        <th>Shaman</th>
-        <th>Warlock</th>
-        <th>Warrior</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each myClassNames}}
-        <tr class="tr-heroClass">
-          <th>{{heroClass}}</th>
-          {{#each oppClassNames}}
-            {{> matchUpStats}}
-          {{/each}}
-        </tr>
+  <div class='ui centered grid'>
+    <div class='thirteen wide column'>
+      {{#if Template.subscriptionsReady}}
+        <table class="ui blue celled structured ten column table stats-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Druid</th>
+              <th>Hunter</th>
+              <th>Mage</th>
+              <th>Paladin</th>
+              <th>Priest</th>
+              <th>Rogue</th>
+              <th>Shaman</th>
+              <th>Warlock</th>
+              <th>Warrior</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{> matchUpListings}}
+          </tbody>
+        </table> 
+      {{else}}
+        <div class="ui segment table-loading">
+          <div class="ui active dimmer">
+            <div class="ui text loader">Loading</div>
+          </div>
+          <div class='loading-div'></div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="matchUpListings">
+  {{#each classNames}}
+    <tr class="tr-heroClass">
+      <th>{{heroClass}}</th>
+      {{#each classNames}}
+        {{> matchUpStats}}
       {{/each}}
-    </tbody>
-  </table>  
+    </tr>
+  {{/each}}
 </template>
 
 <template name="matchUpStats">
-  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-content="Wins: {{getWins ../heroClass heroClass}} Losses: {{getLosses ../heroClass heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
 </template>
 
 <template name="results">
-  <table class="ui red celled structured four column table results-table">
-    <thead>
-      <tr>
-        <th>Class</th>
-        <th>Opponent</th>
-        <th>Result</th>
-        <th>DateTime</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each results}}
-        {{> result}}
-      {{/each}}
-    </tbody>
-  </table>
+  <div class='ui centered grid'>
+    <div class='nine wide column'>
+      {{#if hasResults}}
+        <table class="ui red four column table results-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Opponent</th>
+              <th>Result</th>
+              <th>DateTime</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each results}}
+              {{> result}}
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    </div>
+  </div>
 </template>
 
 <template name="result">
@@ -152,5 +173,6 @@
     <td>{{oppClass}}</td>
     <td>{{result}}</td>
     <td>{{createdAt}}</td>
+    <td><button data-id="{{_id}}" class="ui circular red basic icon button"><i class="remove icon"></i></button></td>
   </tr>
 </template>
