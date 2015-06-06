@@ -145,8 +145,8 @@ if (Meteor.isClient) {
           content: "Wins: " + Session.get(matchUp + 'Wins') + " Losses: " + Session.get(matchUp + 'Losses'),
           hoverable: true,
           delay: {
-            show: 300,
-            hide: 300
+            show: 200,
+            hide: 400
           }
         });
       })
