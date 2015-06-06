@@ -213,6 +213,13 @@ if (Meteor.isServer) {
       HeroClasses.insert({ heroClass: "Warlock" });
       HeroClasses.insert({ heroClass: "Warrior" });
     }
+
+    Meteor.publish('heroClasses', function() {
+      return HeroClasses.find();
+    })
+    Meteor.publish('results', function() {
+      return Results.find();
+    })
   });
 }
 
