@@ -6,6 +6,11 @@ if (Meteor.isClient) {
   Template.hstracker.created = function() {
     getResultsCount = function(myClass, oppClass, result) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
+    },
+    calcWinPercentage = function(matchUp) {
+      var winCount = Session.get(matchUp + 'Wins');
+      var lossCount = Session.get(matchUp + 'Losses');
+      return (winCount/(winCount + lossCount)*100).toFixed(2);
     }
   }
 
@@ -71,9 +76,7 @@ if (Meteor.isClient) {
   Template.winPercentage.helpers({
     winPercentage: function() {
       var matchUp = Session.get('myClass') + Session.get('oppClass');
-      var winCount = Session.get(matchUp + 'Wins');
-      var lossCount = Session.get(matchUp + 'Losses');
-      var calcPercentage = (winCount/(winCount + lossCount)*100).toFixed(2);
+      var calcPercentage = calcWinPercentage(matchUp);
       if (calcPercentage > 0) {
         Session.set(matchUp + 'winPercentage', calcPercentage);
       } else {
@@ -100,8 +103,16 @@ if (Meteor.isClient) {
   Template.statsTable.created = function() {
     HeroClasses.find().forEach(function(myClass) {
       HeroClasses.find().forEach(function(oppClass) {
-        Session.set(myClass.heroClass + oppClass.heroClass + 'Wins', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Win'));
-        Session.set(myClass.heroClass + oppClass.heroClass + 'Losses', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Loss'));
+        var matchUp = myClass.heroClass + oppClass.heroClass;
+        Session.set(matchUp + 'Wins', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Win'));
+        Session.set(matchUp + 'Losses', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Loss'));
+        var calcPercentage = calcWinPercentage(matchUp);
+        if (calcPercentage > 0) {
+          Session.set(matchUp + 'winPercentage', calcPercentage);
+        } else {
+          var percentage = 0;
+          Session.set(matchUp + 'winPercentage', percentage.toFixed(2));
+        }
       })
     })
   }
@@ -146,9 +157,8 @@ if (Meteor.isClient) {
 
   Template.matchUpStats.helpers({
     winPercentage: function(myClass, oppClass) {
-      var winCount = Session.get(myClass + oppClass + 'Wins');
-      var lossCount = Session.get(myClass + oppClass + 'Losses');
-      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2);
+      var matchUp = myClass + oppClass;
+      var percentage = calcWinPercentage(matchUp);
       if (percentage > 0) {
         return percentage;
       } else {
@@ -157,9 +167,8 @@ if (Meteor.isClient) {
       }
     },
     getStatus: function(myClass, oppClass) {
-      var winCount = Session.get(myClass + oppClass + 'Wins');
-      var lossCount = Session.get(myClass + oppClass + 'Losses');
-      var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
+      var matchUp = myClass + oppClass;
+      var percentage = calcWinPercentage(matchUp);
       if (percentage >= 60) {
         return 'positive';
       } else if (percentage >= 50) {
