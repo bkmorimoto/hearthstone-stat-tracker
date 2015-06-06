@@ -100,7 +100,11 @@ if (Meteor.isClient) {
     }
   })
 
-  Template.statsTable.created = function() {
+  Template.statsTable.onCreated(function() {
+    this.subscribe('heroClasses');
+  })
+
+  Template.statsTable.onRendered(function() {
     HeroClasses.find().forEach(function(myClass) {
       HeroClasses.find().forEach(function(oppClass) {
         var matchUp = myClass.heroClass + oppClass.heroClass;
@@ -115,7 +119,7 @@ if (Meteor.isClient) {
         }
       })
     })
-  }
+  })
 
   Template.statsTable.helpers({
     classNames: function() {
@@ -157,14 +161,7 @@ if (Meteor.isClient) {
 
   Template.matchUpStats.helpers({
     winPercentage: function(myClass, oppClass) {
-      var matchUp = myClass + oppClass;
-      var percentage = calcWinPercentage(matchUp);
-      if (percentage > 0) {
-        return percentage;
-      } else {
-        percentage = 0;
-        return percentage.toFixed(2);
-      }
+      return Session.get(myClass + oppClass + 'winPercentage')
     },
     getStatus: function(myClass, oppClass) {
       var matchUp = myClass + oppClass;
