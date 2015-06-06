@@ -4,17 +4,6 @@ if (Meteor.isClient) {
   needRender = new ReactiveVar();
 
   Template.hstracker.created = function() {
-    formatDate = function(date) {
-      var hours = date.getHours();
-      var minutes = date.getMinutes();
-      var ampm = hours >= 12 ? 'pm' : 'am';
-      hours = hours % 12;
-      hours = hours ? hours : 12;
-      minutes = minutes < 10 ? '0'+minutes : minutes;
-      var strTime = hours + ':' + minutes + ' ' + ampm;
-      return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
-    }
-
     getResultsCount = function(myClass, oppClass, result) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
     }
@@ -40,6 +29,19 @@ if (Meteor.isClient) {
     .dropdown('restore default text')
     ;
   };
+
+  Template.winLossButtons.created = function() {
+    formatDate = function(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+  }
 
   Template.winLossButtons.events({
     'click .win-button': function() {
