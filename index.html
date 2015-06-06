@@ -22,11 +22,11 @@
 <template name='classPicks'>
   <div class='ui centered grid'>
     <div class='three wide column'>
-      <h3>My Class</h3>
+      <h3 class='ui header'>My Class</h3>
       {{> classDropdown type='myClass'}}
     </div>
     <div class='three wide column'>
-      <h3>Opponent Class</h3>
+      <h3 class='ui header'>Opponent Class</h3>
       {{> classDropdown type='oppClass'}}
     </div>
   </div>
@@ -95,38 +95,47 @@
 <template name="statsTable">
   <div class='ui centered grid'>
     <div class='thirteen wide column'>
-      <table class="ui blue celled structured ten column table stats-table">
-        <thead>
-          <tr>
-            <th>Class</th>
-            <th>Druid</th>
-            <th>Hunter</th>
-            <th>Mage</th>
-            <th>Paladin</th>
-            <th>Priest</th>
-            <th>Rogue</th>
-            <th>Shaman</th>
-            <th>Warlock</th>
-            <th>Warrior</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#if Template.subscriptionsReady}}
-            {{#each classNames}}
-              <tr class="tr-heroClass">
-                <th>{{heroClass}}</th>
-                {{#each classNames}}
-                  {{> matchUpStats}}
-                {{/each}}
-              </tr>
-            {{/each}}
-          {{else}}
-            Loading...
-          {{/if}}
-        </tbody>
-      </table>  
+      {{#if Template.subscriptionsReady}}
+        <table class="ui blue celled structured ten column table stats-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Druid</th>
+              <th>Hunter</th>
+              <th>Mage</th>
+              <th>Paladin</th>
+              <th>Priest</th>
+              <th>Rogue</th>
+              <th>Shaman</th>
+              <th>Warlock</th>
+              <th>Warrior</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{> matchUpListings}}
+          </tbody>
+        </table> 
+      {{else}}
+        <div class="ui segment table-loading">
+          <div class="ui active dimmer">
+            <div class="ui text loader">Loading</div>
+          </div>
+          <div class='loading-div'></div>
+        </div>
+      {{/if}}
     </div>
   </div>
+</template>
+
+<template name="matchUpListings">
+  {{#each classNames}}
+    <tr class="tr-heroClass">
+      <th>{{heroClass}}</th>
+      {{#each classNames}}
+        {{> matchUpStats}}
+      {{/each}}
+    </tr>
+  {{/each}}
 </template>
 
 <template name="matchUpStats">
@@ -136,22 +145,24 @@
 <template name="results">
   <div class='ui centered grid'>
     <div class='nine wide column'>
-      <table class="ui red four column table results-table">
-        <thead>
-          <tr>
-            <th>Class</th>
-            <th>Opponent</th>
-            <th>Result</th>
-            <th>DateTime</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each results}}
-            {{> result}}
-          {{/each}}
-        </tbody>
-      </table>
+      {{#if hasResults}}
+        <table class="ui red four column table results-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Opponent</th>
+              <th>Result</th>
+              <th>DateTime</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each results}}
+              {{> result}}
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
     </div>
   </div>
 </template>

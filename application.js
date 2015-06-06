@@ -3,6 +3,8 @@ if (Meteor.isClient) {
   HeroClasses = new Mongo.Collection("heroClasses");
   needRender = new ReactiveVar();
 
+  Meteor.subscribe("results");
+
   Template.hstracker.onCreated(function() {
     getResultsCount = function(myClass, oppClass, result) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
@@ -10,7 +12,7 @@ if (Meteor.isClient) {
     calcWinPercentage = function(matchUp) {
       var winCount = Session.get(matchUp + 'Wins');
       var lossCount = Session.get(matchUp + 'Losses');
-      return (winCount/(winCount + lossCount)*100).toFixed(2);
+      return (winCount/(winCount + lossCount)*100);
     }
   })
 
@@ -77,12 +79,8 @@ if (Meteor.isClient) {
     winPercentage: function() {
       var matchUp = Session.get('myClass') + Session.get('oppClass');
       var calcPercentage = calcWinPercentage(matchUp);
-      if (calcPercentage > 0) {
-        Session.set(matchUp + 'winPercentage', calcPercentage);
-      } else {
-        var percentage = 0;
-        Session.set(matchUp + 'winPercentage', percentage.toFixed(2));
-      }
+      if (isNaN(calcPercentage)) {calcPercentage = 0}
+      Session.set(matchUp + 'winPercentage', calcPercentage.toFixed(2));
       return Session.get(matchUp + 'winPercentage');
     },
     getStatusColor: function() {
@@ -104,30 +102,26 @@ if (Meteor.isClient) {
     this.subscribe('heroClasses');
   })
 
-  Template.statsTable.onRendered(function() {
+  Template.matchUpListings.onRendered(function() {
     HeroClasses.find().forEach(function(myClass) {
       HeroClasses.find().forEach(function(oppClass) {
         var matchUp = myClass.heroClass + oppClass.heroClass;
         Session.set(matchUp + 'Wins', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Win'));
         Session.set(matchUp + 'Losses', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Loss'));
         var calcPercentage = calcWinPercentage(matchUp);
-        if (calcPercentage > 0) {
-          Session.set(matchUp + 'winPercentage', calcPercentage);
-        } else {
-          var percentage = 0;
-          Session.set(matchUp + 'winPercentage', percentage.toFixed(2));
-        }
+        if (isNaN(calcPercentage)) {calcPercentage = 0}
+        Session.set(matchUp + 'winPercentage', calcPercentage.toFixed(2));
       })
     })
   })
 
-  Template.statsTable.helpers({
+  Template.matchUpListings.helpers({
     classNames: function() {
       return HeroClasses.find();
     }
   });
 
-  Template.statsTable.events({
+  Template.matchUpListings.events({
     'click td': function(event, template) {
       var $target = $(event.target);
       var myClass = $target.data('myClass');
@@ -151,8 +145,8 @@ if (Meteor.isClient) {
           content: "Wins: " + Session.get(matchUp + 'Wins') + " Losses: " + Session.get(matchUp + 'Losses'),
           hoverable: true,
           delay: {
-            show: 300,
-            hide: 300
+            show: 200,
+            hide: 400
           }
         });
       })
@@ -179,6 +173,9 @@ if (Meteor.isClient) {
   });
 
   Template.results.helpers({
+    hasResults: function() {
+      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')}).count() > 0;
+    },
     results: function() {
       return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')});
     }
@@ -220,6 +217,13 @@ if (Meteor.isServer) {
       HeroClasses.insert({ heroClass: "Warlock" });
       HeroClasses.insert({ heroClass: "Warrior" });
     }
+
+    Meteor.publish('heroClasses', function() {
+      return HeroClasses.find();
+    })
+    Meteor.publish('results', function() {
+      return Results.find();
+    })
   });
 }
 
