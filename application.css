@@ -7,10 +7,6 @@
   width: 100px;
 }
 
-.ui.grid + .stats-counts {
-  margin-top: 2rem;
-}
-
 .ui.table .tr-heroClass th {
   cursor: auto;
   background: #f0f0f0;
@@ -32,6 +28,10 @@
 
 .ui.grid > .ui.statistics.column {
   padding-bottom: 0;
+}
+
+.ui.grid > .ui.statistics.column .statistic {
+  margin-bottom: 0;
 }
 
 .ui.segment.table-loading {
