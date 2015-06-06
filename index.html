@@ -22,11 +22,11 @@
 <template name='classPicks'>
   <div class='ui centered grid'>
     <div class='three wide column'>
-      <h3>My Class</h3>
+      <h3 class='ui header'>My Class</h3>
       {{> classDropdown type='myClass'}}
     </div>
     <div class='three wide column'>
-      <h3>Opponent Class</h3>
+      <h3 class='ui header'>Opponent Class</h3>
       {{> classDropdown type='oppClass'}}
     </div>
   </div>
@@ -145,22 +145,24 @@
 <template name="results">
   <div class='ui centered grid'>
     <div class='nine wide column'>
-      <table class="ui red four column table results-table">
-        <thead>
-          <tr>
-            <th>Class</th>
-            <th>Opponent</th>
-            <th>Result</th>
-            <th>DateTime</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each results}}
-            {{> result}}
-          {{/each}}
-        </tbody>
-      </table>
+      {{#if hasResults}}
+        <table class="ui red four column table results-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Opponent</th>
+              <th>Result</th>
+              <th>DateTime</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each results}}
+              {{> result}}
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
     </div>
   </div>
 </template>

@@ -173,6 +173,9 @@ if (Meteor.isClient) {
   });
 
   Template.results.helpers({
+    hasResults: function() {
+      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')}).count() > 0;
+    },
     results: function() {
       return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')});
     }
