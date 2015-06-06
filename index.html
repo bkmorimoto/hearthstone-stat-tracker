@@ -4,16 +4,20 @@
 
 <body>
   <div class='container'>
-    <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
-    
-    {{> classPicks}}
-    {{> winLossButtons}}
-    {{> resultStats}}
-      
-    {{> statsTable}}  
-    {{> results}}
+    {{> hstracker}}
   </div>
 </body>
+
+<template name='hstracker'>
+  <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
+  
+  {{> classPicks}}
+  {{> winLossButtons}}
+  {{> resultStats}}
+    
+  {{> statsTable}}  
+  {{> results}}
+</template>
 
 <template name='classPicks'>
   <div class='ui centered grid'>
@@ -107,14 +111,18 @@
           </tr>
         </thead>
         <tbody>
-          {{#each classNames}}
-            <tr class="tr-heroClass">
-              <th>{{heroClass}}</th>
-              {{#each classNames}}
-                {{> matchUpStats}}
-              {{/each}}
-            </tr>
-          {{/each}}
+          {{#if Template.subscriptionsReady}}
+            {{#each classNames}}
+              <tr class="tr-heroClass">
+                <th>{{heroClass}}</th>
+                {{#each classNames}}
+                  {{> matchUpStats}}
+                {{/each}}
+              </tr>
+            {{/each}}
+          {{else}}
+            Loading...
+          {{/if}}
         </tbody>
       </table>  
     </div>
@@ -122,7 +130,7 @@
 </template>
 
 <template name="matchUpStats">
-  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-wins="{{getWins ../heroClass heroClass}}" data-losses="{{getLosses ../heroClass heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
 </template>
 
 <template name="results">
