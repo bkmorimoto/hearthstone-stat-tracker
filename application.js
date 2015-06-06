@@ -129,8 +129,9 @@ if (Meteor.isClient) {
       needRender.set('');
       Tracker.afterFlush(function() {
         var $target = that.$('td');
+        var matchUp = $target.data('myClass') + $target.data('oppClass');
         $target.popup({
-          content: "Wins: " + $target.attr('data-wins') + " Losses: " + $target.attr('data-losses'),
+          content: "Wins: " + Session.get(matchUp + 'Wins') + " Losses: " + Session.get(matchUp + 'Losses'),
           hoverable: true,
           delay: {
             show: 300,
@@ -142,12 +143,6 @@ if (Meteor.isClient) {
   };
 
   Template.matchUpStats.helpers({
-    getWins: function(myClass, oppClass) {
-      return Session.get(myClass + oppClass + 'Wins');
-    },
-    getLosses: function(myClass, oppClass) {
-      return Session.get(myClass + oppClass + 'Losses')
-    },
     winPercentage: function(myClass, oppClass) {
       var winCount = Session.get(myClass + oppClass + 'Wins');
       var lossCount = Session.get(myClass + oppClass + 'Losses');
