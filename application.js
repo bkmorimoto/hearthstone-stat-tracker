@@ -18,13 +18,6 @@ if (Meteor.isClient) {
     getResultsCount = function(myClass, oppClass, result) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
     }
-
-    HeroClasses.find().forEach(function(myClass) {
-      HeroClasses.find().forEach(function(oppClass) {
-        Session.set(myClass.heroClass + oppClass.heroClass + 'Wins', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Win'));
-        Session.set(myClass.heroClass + oppClass.heroClass + 'Losses', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Loss'));
-      })
-    })
   }
 
   Template.classDropdown.helpers({
@@ -51,24 +44,24 @@ if (Meteor.isClient) {
   Template.winLossButtons.events({
     'click .win-button': function() {
       Results.insert({ myClass: $('#myClass').val(), oppClass: $('#oppClass').val(), result: "Win", createdAt: formatDate(new Date()) })
-      Session.set($('#myClass').val() + $('#oppClass').val() + 'Wins', Session.get($('#myClass').val() + $('#oppClass').val() + 'Wins') + 1);
       needRender.set();
     },
     'click .loss-button': function() {
       Results.insert({ myClass: $('#myClass').val(), oppClass: $('#oppClass').val(), result: "Loss", createdAt: formatDate(new Date()) })
-      Session.set($('#myClass').val() + $('#oppClass').val() + 'Losses', Session.get($('#myClass').val() + $('#oppClass').val() + 'Losses') + 1)
       needRender.set();
     }
   });
 
   Template.winCount.helpers({
     winCount: function() {
+      Session.set(Session.get('myClass') + Session.get('oppClass') + 'Wins', getResultsCount(Session.get('myClass'), Session.get('oppClass'), "Win"));
       return Session.get(Session.get('myClass') + Session.get('oppClass') + 'Wins')
     }
   })
 
   Template.lossCount.helpers({
     lossCount: function() {
+      Session.set(Session.get('myClass') + Session.get('oppClass') + 'Losses', getResultsCount(Session.get('myClass'), Session.get('oppClass'), "Loss"));
       return Session.get(Session.get('myClass') + Session.get('oppClass') + 'Losses')
     }
   })
@@ -101,6 +94,15 @@ if (Meteor.isClient) {
       }
     }
   })
+
+  Template.statsTable.created = function() {
+    HeroClasses.find().forEach(function(myClass) {
+      HeroClasses.find().forEach(function(oppClass) {
+        Session.set(myClass.heroClass + oppClass.heroClass + 'Wins', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Win'));
+        Session.set(myClass.heroClass + oppClass.heroClass + 'Losses', getResultsCount(myClass.heroClass, oppClass.heroClass, 'Loss'));
+      })
+    })
+  }
 
   Template.statsTable.helpers({
     classNames: function() {
