@@ -33,3 +33,11 @@
 .ui.grid > .ui.statistics.column {
   padding-bottom: 0;
 }
+
+.ui.segment.table-loading {
+  padding: 0px;
+}
+
+.loading-div {
+  height: 390px;
+}

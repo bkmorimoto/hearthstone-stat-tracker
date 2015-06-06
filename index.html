@@ -95,29 +95,34 @@
 <template name="statsTable">
   <div class='ui centered grid'>
     <div class='thirteen wide column'>
-      <table class="ui blue celled structured ten column table stats-table">
-        <thead>
-          <tr>
-            <th>Class</th>
-            <th>Druid</th>
-            <th>Hunter</th>
-            <th>Mage</th>
-            <th>Paladin</th>
-            <th>Priest</th>
-            <th>Rogue</th>
-            <th>Shaman</th>
-            <th>Warlock</th>
-            <th>Warrior</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#if Template.subscriptionsReady}}
+      {{#if Template.subscriptionsReady}}
+        <table class="ui blue celled structured ten column table stats-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Druid</th>
+              <th>Hunter</th>
+              <th>Mage</th>
+              <th>Paladin</th>
+              <th>Priest</th>
+              <th>Rogue</th>
+              <th>Shaman</th>
+              <th>Warlock</th>
+              <th>Warrior</th>
+            </tr>
+          </thead>
+          <tbody>
             {{> matchUpListings}}
-          {{else}}
-            Loading...
-          {{/if}}
-        </tbody>
-      </table>  
+          </tbody>
+        </table> 
+      {{else}}
+        <div class="ui segment table-loading">
+          <div class="ui active dimmer">
+            <div class="ui text loader">Loading</div>
+          </div>
+          <div class='loading-div'></div>
+        </div>
+      {{/if}}
     </div>
   </div>
 </template>
