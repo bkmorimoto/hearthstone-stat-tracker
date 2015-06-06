@@ -112,14 +112,7 @@
         </thead>
         <tbody>
           {{#if Template.subscriptionsReady}}
-            {{#each classNames}}
-              <tr class="tr-heroClass">
-                <th>{{heroClass}}</th>
-                {{#each classNames}}
-                  {{> matchUpStats}}
-                {{/each}}
-              </tr>
-            {{/each}}
+            {{> matchUpListings}}
           {{else}}
             Loading...
           {{/if}}
@@ -127,6 +120,17 @@
       </table>  
     </div>
   </div>
+</template>
+
+<template name="matchUpListings">
+  {{#each classNames}}
+    <tr class="tr-heroClass">
+      <th>{{heroClass}}</th>
+      {{#each classNames}}
+        {{> matchUpStats}}
+      {{/each}}
+    </tr>
+  {{/each}}
 </template>
 
 <template name="matchUpStats">

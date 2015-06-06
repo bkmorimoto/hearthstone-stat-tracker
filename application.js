@@ -3,6 +3,8 @@ if (Meteor.isClient) {
   HeroClasses = new Mongo.Collection("heroClasses");
   needRender = new ReactiveVar();
 
+  Meteor.subscribe("results");
+
   Template.hstracker.onCreated(function() {
     getResultsCount = function(myClass, oppClass, result) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
@@ -100,8 +102,7 @@ if (Meteor.isClient) {
     this.subscribe('heroClasses');
   })
 
-  Template.statsTable.onRendered(function() {
-    console.log(HeroClasses.find().fetch())
+  Template.matchUpListings.onRendered(function() {
     HeroClasses.find().forEach(function(myClass) {
       HeroClasses.find().forEach(function(oppClass) {
         var matchUp = myClass.heroClass + oppClass.heroClass;
@@ -114,13 +115,13 @@ if (Meteor.isClient) {
     })
   })
 
-  Template.statsTable.helpers({
+  Template.matchUpListings.helpers({
     classNames: function() {
       return HeroClasses.find();
     }
   });
 
-  Template.statsTable.events({
+  Template.matchUpListings.events({
     'click td': function(event, template) {
       var $target = $(event.target);
       var myClass = $target.data('myClass');
