@@ -143,14 +143,14 @@ if (Meteor.isClient) {
 
   Template.matchUpStats.helpers({
     getWins: function(myClass, oppClass) {
-      return getResultsCount(myClass, oppClass, 'Win');
+      return Session.get(myClass + oppClass + 'Wins');
     },
     getLosses: function(myClass, oppClass) {
-      return getResultsCount(myClass, oppClass, 'Loss');
+      return Session.get(myClass + oppClass + 'Losses')
     },
     winPercentage: function(myClass, oppClass) {
-      var winCount = getResultsCount(myClass, oppClass, 'Win');
-      var lossCount = getResultsCount(myClass, oppClass, 'Loss');
+      var winCount = Session.get(myClass + oppClass + 'Wins');
+      var lossCount = Session.get(myClass + oppClass + 'Losses');
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2);
       if (percentage > 0) {
         return percentage;
@@ -160,8 +160,8 @@ if (Meteor.isClient) {
       }
     },
     getStatus: function(myClass, oppClass) {
-      var winCount = getResultsCount(myClass, oppClass, 'Win');
-      var lossCount = getResultsCount(myClass, oppClass, 'Loss');
+      var winCount = Session.get(myClass + oppClass + 'Wins');
+      var lossCount = Session.get(myClass + oppClass + 'Losses');
       var percentage = (winCount/(winCount + lossCount)*100).toFixed(2)
       if (percentage >= 60) {
         return 'positive';
