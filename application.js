@@ -3,7 +3,7 @@ if (Meteor.isClient) {
   HeroClasses = new Mongo.Collection("heroClasses");
   needRender = new ReactiveVar();
 
-  Template.hstracker.created = function() {
+  Template.hstracker.onCreated(function() {
     getResultsCount = function(myClass, oppClass, result) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
     },
@@ -12,7 +12,7 @@ if (Meteor.isClient) {
       var lossCount = Session.get(matchUp + 'Losses');
       return (winCount/(winCount + lossCount)*100).toFixed(2);
     }
-  }
+  })
 
   Template.classDropdown.helpers({
     classNames: function() {
@@ -29,13 +29,13 @@ if (Meteor.isClient) {
     }
   })
 
-  Template.className.rendered = function() {
+  Template.className.onRendered(function() {
     $('.ui.selection.dropdown')
     .dropdown('restore default text')
     ;
-  };
+  });
 
-  Template.winLossButtons.created = function() {
+  Template.winLossButtons.onCreated(function() {
     formatDate = function(date) {
       var hours = date.getHours();
       var minutes = date.getMinutes();
@@ -46,7 +46,7 @@ if (Meteor.isClient) {
       var strTime = hours + ':' + minutes + ' ' + ampm;
       return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
     }
-  }
+  })
 
   Template.winLossButtons.events({
     'click .win-button': function() {
@@ -139,7 +139,7 @@ if (Meteor.isClient) {
     }
   })
 
-  Template.matchUpStats.rendered = function() {
+  Template.matchUpStats.onRendered(function() {
     var that = this;
     this.autorun(function() {
       needRender.get();
@@ -157,7 +157,7 @@ if (Meteor.isClient) {
         });
       })
     })
-  };
+  });
 
   Template.matchUpStats.helpers({
     winPercentage: function(myClass, oppClass) {
