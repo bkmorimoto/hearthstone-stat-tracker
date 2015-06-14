@@ -8,3 +8,5 @@ meteor-platform
 insecure
 semantic:ui-css
 reactive-var
+accounts-ui
+accounts-password
