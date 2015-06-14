@@ -52,11 +52,25 @@ if (Meteor.isClient) {
 
   Template.winLossButtons.events({
     'click .win-button': function() {
-      Results.insert({ myClass: $('#myClass').val(), oppClass: $('#oppClass').val(), result: "Win", createdAt: formatDate(new Date()) })
+      Results.insert({
+        myClass: $('#myClass').val(),
+        oppClass: $('#oppClass').val(),
+        result: "Win",
+        createdAt: formatDate(new Date()),
+        owner: Meteor.userId(),
+        username: Meteor.user().username
+      })
       needRender.set();
     },
     'click .loss-button': function() {
-      Results.insert({ myClass: $('#myClass').val(), oppClass: $('#oppClass').val(), result: "Loss", createdAt: formatDate(new Date()) })
+      Results.insert({
+        myClass: $('#myClass').val(),
+        oppClass: $('#oppClass').val(),
+        result: "Loss",
+        createdAt: formatDate(new Date()),
+        owner: Meteor.userId(),
+        username: Meteor.user().username
+      })
       needRender.set();
     }
   });
@@ -198,6 +212,10 @@ if (Meteor.isClient) {
       Results.remove({'_id': entryId})
       needRender.set();
     }
+  });
+
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
   });
 }
 
