@@ -9,14 +9,28 @@
 </body>
 
 <template name='hstracker'>
+  {{> navbar}}
   <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
-  
-  {{> classPicks}}
-  {{> winLossButtons}}
-  {{> resultStats}}
-    
-  {{> statsTable}}  
-  {{> results}}
+
+  {{#if currentUser}}
+    {{> classPicks}}
+    {{> winLossButtons}}
+    {{> resultStats}}
+      
+    {{> statsTable}}  
+    {{> results}}
+  {{/if}}
+</template>
+
+<template name='navbar'>
+  <div class="ui large menu">
+    <a class='item'>
+      <i class="line chart icon"></i>Hearthstone Stats Tracker
+    </a>
+    <div class="right menu">
+      <div>{{> loginButtons}}</div>
+    </div>
+  </div>
 </template>
 
 <template name='classPicks'>

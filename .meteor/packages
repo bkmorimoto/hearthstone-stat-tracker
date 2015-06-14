@@ -8,3 +8,6 @@ meteor-platform
 insecure
 semantic:ui-css
 reactive-var
+accounts-password
+accounts-twitter
+iandouglas:accounts-ui-semantic-ui
