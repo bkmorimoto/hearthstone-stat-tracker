@@ -7,7 +7,7 @@ if (Meteor.isClient) {
 
   Template.hstracker.onCreated(function() {
     getResultsCount = function(myClass, oppClass, result) {
-      return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
+      return Results.find({myClass: myClass, oppClass: oppClass, result: result, owner: Meteor.userId()}).count();
     },
     calcWinPercentage = function(matchUp) {
       var winCount = Session.get(matchUp + 'Wins');
@@ -52,11 +52,25 @@ if (Meteor.isClient) {
 
   Template.winLossButtons.events({
     'click .win-button': function() {
-      Results.insert({ myClass: $('#myClass').val(), oppClass: $('#oppClass').val(), result: "Win", createdAt: formatDate(new Date()) })
+      Results.insert({
+        myClass: $('#myClass').val(),
+        oppClass: $('#oppClass').val(),
+        result: "Win",
+        createdAt: formatDate(new Date()),
+        owner: Meteor.userId(),
+        username: Meteor.user().username
+      })
       needRender.set();
     },
     'click .loss-button': function() {
-      Results.insert({ myClass: $('#myClass').val(), oppClass: $('#oppClass').val(), result: "Loss", createdAt: formatDate(new Date()) })
+      Results.insert({
+        myClass: $('#myClass').val(),
+        oppClass: $('#oppClass').val(),
+        result: "Loss",
+        createdAt: formatDate(new Date()),
+        owner: Meteor.userId(),
+        username: Meteor.user().username
+      })
       needRender.set();
     }
   });
@@ -174,10 +188,10 @@ if (Meteor.isClient) {
 
   Template.results.helpers({
     hasResults: function() {
-      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')}).count() > 0;
+      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), owner: Meteor.userId()}).count() > 0;
     },
     results: function() {
-      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')});
+      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), owner: Meteor.userId()});
     }
   });
 
@@ -198,6 +212,10 @@ if (Meteor.isClient) {
       Results.remove({'_id': entryId})
       needRender.set();
     }
+  });
+
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
   });
 }
 
