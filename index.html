@@ -9,9 +9,8 @@
 </body>
 
 <template name='hstracker'>
+  {{> navbar}}
   <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
-  
-  {{> loginButtons}}
 
   {{#if currentUser}}
     {{> classPicks}}
@@ -23,6 +22,14 @@
   {{/if}}
 </template>
 
+<template name='navbar'>
+  <div class="ui right menu">
+    <a class='item'>Home</a>
+    <div class="right menu">
+      <div>{{> loginButtons}}</div>
+    </div>
+  </div>
+</template>
 <template name='classPicks'>
   <div class='ui centered grid'>
     <div class='three wide column'>
