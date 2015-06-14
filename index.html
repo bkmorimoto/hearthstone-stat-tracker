@@ -12,12 +12,15 @@
   <h1 class='ui center aligned header'>Welcome to the Hearthstone Stats Tracker</h1>
   
   {{> loginButtons}}
-  {{> classPicks}}
-  {{> winLossButtons}}
-  {{> resultStats}}
-    
-  {{> statsTable}}  
-  {{> results}}
+
+  {{#if currentUser}}
+    {{> classPicks}}
+    {{> winLossButtons}}
+    {{> resultStats}}
+      
+    {{> statsTable}}  
+    {{> results}}
+  {{/if}}
 </template>
 
 <template name='classPicks'>
