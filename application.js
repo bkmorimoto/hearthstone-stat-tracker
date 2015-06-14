@@ -7,7 +7,7 @@ if (Meteor.isClient) {
 
   Template.hstracker.onCreated(function() {
     getResultsCount = function(myClass, oppClass, result) {
-      return Results.find({myClass: myClass, oppClass: oppClass, result: result}).count();
+      return Results.find({myClass: myClass, oppClass: oppClass, result: result, owner: Meteor.userId()}).count();
     },
     calcWinPercentage = function(matchUp) {
       var winCount = Session.get(matchUp + 'Wins');
@@ -188,10 +188,10 @@ if (Meteor.isClient) {
 
   Template.results.helpers({
     hasResults: function() {
-      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')}).count() > 0;
+      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), owner: Meteor.userId()}).count() > 0;
     },
     results: function() {
-      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass')});
+      return Results.find({myClass: Session.get('myClass'), oppClass: Session.get('oppClass'), owner: Meteor.userId()});
     }
   });
 
