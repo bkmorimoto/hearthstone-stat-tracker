@@ -16,6 +16,14 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.featureList.helpers({
+    features: function() {
+      return [
+        {desc: "Complete breakdown of your match up win percentages, so you can keep track of which match ups are more favorable for you."}
+      ]
+    }
+  });
+
   Template.classDropdown.helpers({
     classNames: function() {
       return HeroClasses.find();
