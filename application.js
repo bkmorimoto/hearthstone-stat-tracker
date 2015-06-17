@@ -16,52 +16,69 @@ if (Meteor.isClient) {
     }
   })
 
-  Template.navbar.helpers({
-    topGenresChart: function() {
-      return {
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false
-        },
-        title: {
-          text: Meteor.user().profile.name + "'s top genres"
-        },
-        tooltip: {
-          pointFormat: '<b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: true,
-              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-              style: {
-                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-              },
-              connectorColor: 'silver'
-            }
-          }
-        },
-        series: [{
-          type: 'pie',
-          name: 'genre',
-          data: [
-            ['Adventure',   45.0],
-            ['Action',       26.8],
-            ['Ecchi',   12.8],
-            ['Comedy',    8.5],
-            ['Yuri',     6.2]
-          ]
-        }]
-      };
-    }
-  });
+  Template.navbar.onCreated(function() {
+    builtPie = function() {
+      // 'external' data
+      var data = new Array();
+
+      data.push({
+          name: 'Level 0',
+          y: 10,
+          color: '#55BF3B'
+      });
+      data.push({
+          name: 'Level 1',
+          y: 12,
+          color: '#DDDF0D'
+      });
+      data.push({
+          name: 'Level 2',
+          y: 30,
+          color: '#DF5353'
+      });
+
+      $('#games-played-pie-chart').highcharts({
+          chart: {
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false
+          },
+          title: {
+              text: ''
+          },
+          credits: {
+              enabled: false
+          },
+          tooltip: {
+              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          },
+          plotOptions: {
+              pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                      enabled: false
+                  },
+                  showInLegend: true
+              }
+          },
+          series: [{
+              type: 'pie',
+              name: 'Anteil',
+              data: data
+          }]
+        });
+      }
+    });
+
+  Template.navbar.onRendered(function() {    
+    builtPie();
+  })
 
   Template.navbar.events({
     'click .overall-stats': function() {
-      $('.ui.modal').modal('show')
+      $('.ui.modal').modal('show');
+      $('#games-played-pie-chart').highcharts().reflow();
     }
   });
 
