@@ -41,3 +41,7 @@
 .loading-div {
   height: 390px;
 }
+
+.ui.segment.info-block {
+  padding-top: 0.5em;
+}
