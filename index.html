@@ -30,6 +30,9 @@
     <a class='item'>
       <i class="line chart icon"></i>Hearthstone Stats Tracker
     </a>
+    {{#if currentUser}}
+      <a class='item overall-stats'>Overall</a>
+    {{/if}}
     <div class="right menu">
       <div>{{> loginButtons}}</div>
     </div>
