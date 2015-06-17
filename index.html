@@ -25,7 +25,7 @@
 </template>
 
 <template name='navbar'>
-  <div class="ui large menu">
+  <div class="ui menu">
     <a class='item'>
       <i class="line chart icon"></i>Hearthstone Stats Tracker
     </a>
@@ -193,7 +193,7 @@
 </template>
 
 <template name="matchUpStats">
-  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-variation="large" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
 </template>
 
 <template name="results">
