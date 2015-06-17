@@ -19,16 +19,56 @@
       
     {{> statsTable}}  
     {{> results}}
+  {{else}}
+    {{> about}}
   {{/if}}
 </template>
 
 <template name='navbar'>
-  <div class="ui large menu">
+  <div class="ui menu">
     <a class='item'>
       <i class="line chart icon"></i>Hearthstone Stats Tracker
     </a>
     <div class="right menu">
       <div>{{> loginButtons}}</div>
+    </div>
+  </div>
+</template>
+
+<template name='about'>
+  <div class='ui centered aligned column grid'>
+    <div class='five wide column'>
+      <div class='ui blue segment center aligned info-block'>
+        <div>
+          <i class='big blue info circle icon'></i>
+        </div>
+        <div>
+          In order to get started, sign up in the top right corner.
+        </div>
+      </div>
+      <div class='ui green segment'>
+        {{> featureList}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name='featureList'>
+  <h4 class="ui center aligned header">Features</h4>
+  <div class="ui list">
+    {{#each features}}
+      {{> feature}}
+    {{/each}}
+  </div>
+</template>
+
+<template name='feature'>
+  <div class="item">
+    <i class="large green check circle icon"></i>
+    <div class="content">
+      <div class="description">
+        {{description}}
+      </div>
     </div>
   </div>
 </template>
@@ -153,7 +193,7 @@
 </template>
 
 <template name="matchUpStats">
-  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-variation="huge" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
+  <td data-my-class="{{../heroClass}}" data-opp-class="{{heroClass}}" data-title="{{../heroClass}} vs. {{heroClass}}" data-variation="large" class="{{getStatus ../heroClass heroClass}}">{{winPercentage ../heroClass heroClass}}</td>
 </template>
 
 <template name="results">

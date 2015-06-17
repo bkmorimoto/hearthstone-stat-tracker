@@ -16,6 +16,18 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.featureList.helpers({
+    features: function() {
+      return [
+        {description: "Sign up with Twitter"},
+        {description: "Complete breakdown of your match up win percentages, so you can keep track of which match ups are more favorable for you."},
+        {description: "Hover over any match up in the table to get a quick glance at the win/loss count"},
+        {description: "Click on any match up in the table to jump directly to the result breakdown"},
+        {description: "Review the history of recorded games based on match up"}
+      ]
+    }
+  });
+
   Template.classDropdown.helpers({
     classNames: function() {
       return HeroClasses.find();
