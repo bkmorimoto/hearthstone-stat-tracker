@@ -16,6 +16,12 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.navbar.events({
+    'click .overall-stats': function() {
+      $('.ui.modal').modal('show')
+    }
+  });
+
   Template.featureList.helpers({
     features: function() {
       return [
