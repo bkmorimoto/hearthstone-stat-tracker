@@ -19,6 +19,8 @@
       
     {{> statsTable}}  
     {{> results}}
+  {{else}}
+    {{> about}}
   {{/if}}
 </template>
 
@@ -29,6 +31,22 @@
     </a>
     <div class="right menu">
       <div>{{> loginButtons}}</div>
+    </div>
+  </div>
+</template>
+
+<template name='about'>
+  <div class='ui centered aligned column grid'>
+    <div class='five wide centered aligned column'>
+      <div class=''>
+        <i class='info big inverted blue circle icon'></i>
+      </div>
+      <div>
+        In order to get started, just sign up in the top right corner.
+      </div>
+      <div>
+        You will be presented with a complete breakdown of your matchup win percentages, so you can keep track of which matchups are more favorable for you.
+      </div>
     </div>
   </div>
 </template>
