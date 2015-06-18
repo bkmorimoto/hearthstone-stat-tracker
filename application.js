@@ -312,15 +312,15 @@ if (Meteor.isServer) {
     HeroClasses = new Mongo.Collection("heroClasses");
 
     if (HeroClasses.find().count() == 0) {
-      HeroClasses.insert({ heroClass: "Druid" });
-      HeroClasses.insert({ heroClass: "Hunter" });
-      HeroClasses.insert({ heroClass: "Mage" });
-      HeroClasses.insert({ heroClass: "Paladin" });
-      HeroClasses.insert({ heroClass: "Priest" });
-      HeroClasses.insert({ heroClass: "Rogue" })
-      HeroClasses.insert({ heroClass: "Shaman" });
-      HeroClasses.insert({ heroClass: "Warlock" });
-      HeroClasses.insert({ heroClass: "Warrior" });
+      HeroClasses.insert({ heroClass: "Druid", color: "#FF7D0A" });
+      HeroClasses.insert({ heroClass: "Hunter", color: "#ABD473" });
+      HeroClasses.insert({ heroClass: "Mage", color: "#69CCF0" });
+      HeroClasses.insert({ heroClass: "Paladin", color: "#F58CBA" });
+      HeroClasses.insert({ heroClass: "Priest", color: "#999999" });
+      HeroClasses.insert({ heroClass: "Rogue", color: "#f1c40f" })
+      HeroClasses.insert({ heroClass: "Shaman", color: "#0070DE" });
+      HeroClasses.insert({ heroClass: "Warlock", color: "#9482C9" });
+      HeroClasses.insert({ heroClass: "Warrior", color: "#C79C6E" });
     }
 
     Meteor.publish('heroClasses', function() {
