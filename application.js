@@ -27,52 +27,60 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.overallStats.onRendered(function() {
-    var data = new Array();
+  Template.overallStats.onCreated(function() {
+    builtPieReactive = function() {
+      var data = new Array();
 
-    HeroClasses.find().forEach(function(heroClass) {
-      var currentClass = heroClass.heroClass;
-      data.push({
-        name: currentClass,
-        y: Results.find({myClass: currentClass, owner: Meteor.userId()}).count()
+      HeroClasses.find().forEach(function(heroClass) {
+        var currentClass = heroClass.heroClass;
+        data.push({
+          name: currentClass,
+          y: Results.find({myClass: currentClass, owner: Meteor.userId()}).count()
+        })
       })
-    })
 
-    $('#games-played-pie-chart').highcharts({
-      chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false
-      },
-      title: {
-        text: 'Games Played'
-      },
-      credits: {
-        enabled: false
-      },
-      tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
-      plotOptions: {
-        pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          dataLabels: {
-            enabled: true,
-            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-            style: {
-              color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+      $('#games-played-pie-chart').highcharts({
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false
+        },
+        title: {
+          text: 'Games Played'
+        },
+        credits: {
+          enabled: false
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+              style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+              }
             }
           }
-        }
-      },
-      series: [{
-        type: 'pie',
-        name: 'Played',
-        data: data
-      }]
-    });
+        },
+        series: [{
+          type: 'pie',
+          name: 'Played',
+          data: data
+        }]
+      });
+    }
   });
+
+  Template.overallStats.onRendered(function() {
+    Tracker.autorun(function() {
+      builtPieReactive();
+    })
+  })
 
   Template.featureList.helpers({
     features: function() {
