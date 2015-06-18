@@ -37,6 +37,12 @@
       <div>{{> loginButtons}}</div>
     </div>
   </div>
+  {{#if Template.subscriptionsReady}}
+    {{> overallStats}}
+  {{/if}}
+</template>
+
+<template name='overallStats'>
   <div class="ui modal">
     <i class="close icon"></i>
     <div class="header">
