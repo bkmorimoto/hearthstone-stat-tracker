@@ -37,6 +37,7 @@ if (Meteor.isClient) {
         data.push({
           name: currentClass,
           y: Results.find({myClass: currentClass, owner: Meteor.userId()}).count(),
+          color: HeroClasses.findOne({heroClass: currentClass}).color,
           drilldown: currentClass
         })
         drilldownSeries.push({
@@ -52,6 +53,10 @@ if (Meteor.isClient) {
           plotBorderWidth: null,
           plotShadow: false
         },
+        colors: [
+          '#5bbd72',
+          '#d95c5c'
+        ],
         title: {
           text: 'Games Played'
         },
