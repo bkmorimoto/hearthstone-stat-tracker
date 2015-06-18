@@ -6,6 +6,7 @@ if (Meteor.isClient) {
   Meteor.subscribe("results");
 
   Template.hstracker.onCreated(function() {
+    this.subscribe("heroClasses");
     getResultsCount = function(myClass, oppClass, result) {
       return Results.find({myClass: myClass, oppClass: oppClass, result: result, owner: Meteor.userId()}).count();
     },
@@ -16,64 +17,74 @@ if (Meteor.isClient) {
     }
   })
 
-  Template.navbar.onCreated(function() {
-    builtPie = function() {
-      // 'external' data
+  Template.navbar.onRendered(function() {
+    // builtPie = function() {
       var data = new Array();
 
-      data.push({
-          name: 'Level 0',
-          y: 10,
-          color: '#55BF3B'
-      });
-      data.push({
-          name: 'Level 1',
-          y: 12,
-          color: '#DDDF0D'
-      });
-      data.push({
-          name: 'Level 2',
-          y: 30,
-          color: '#DF5353'
-      });
+      console.log("made it");
+      console.log(HeroClasses.find().fetch());
+      HeroClasses.find().forEach(function(heroClass) {
+        var currentClass = heroClass.heroClass;
+        console.log("Current Class: ", currentClass)
+        console.log("games played: ", Results.find({myClass: currentClass, owner: Meteor.userId()}))
+        data.push({
+          name: currentClass,
+          y: Results.find({myClass: currentClass, owner: Meteor.userId()})
+        })
+      })
+      // data.push({
+      //     name: 'Level 0',
+      //     y: 10,
+      //     color: '#55BF3B'
+      // });
+      // data.push({
+      //     name: 'Level 1',
+      //     y: 12,
+      //     color: '#DDDF0D'
+      // });
+      // data.push({
+      //     name: 'Level 2',
+      //     y: 30,
+      //     color: '#DF5353'
+      // });
 
       $('#games-played-pie-chart').highcharts({
-          chart: {
-              plotBackgroundColor: null,
-              plotBorderWidth: null,
-              plotShadow: false
-          },
-          title: {
-              text: ''
-          },
-          credits: {
-              enabled: false
-          },
-          tooltip: {
-              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-          },
-          plotOptions: {
-              pie: {
-                  allowPointSelect: true,
-                  cursor: 'pointer',
-                  dataLabels: {
-                      enabled: false
-                  },
-                  showInLegend: true
-              }
-          },
-          series: [{
-              type: 'pie',
-              name: 'Anteil',
-              data: data
-          }]
-        });
-      }
-    });
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'Games Played'
+        },
+        credits: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Anteil',
+            data: data
+        }]
+      });
+    // }
+  });
 
-  Template.navbar.onRendered(function() {    
-    builtPie();
-  })
+  // Template.navbar.onRendered(function() {    
+  //   builtPie();
+  // })
 
   Template.navbar.events({
     'click .overall-stats': function() {
