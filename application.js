@@ -30,17 +30,24 @@ if (Meteor.isClient) {
   Template.overallStats.onCreated(function() {
     builtPieReactive = function() {
       var data = new Array();
+      var drilldownSeries = new Array();
 
       HeroClasses.find().forEach(function(heroClass) {
         var currentClass = heroClass.heroClass;
         data.push({
           name: currentClass,
-          y: Results.find({myClass: currentClass, owner: Meteor.userId()}).count()
+          y: Results.find({myClass: currentClass, owner: Meteor.userId()}).count(),
+          drilldown: currentClass
+        })
+        drilldownSeries.push({
+          name: currentClass,
+          id: currentClass,
+          data: [['Wins', Results.find({myClass: currentClass, result: 'Win', owner: Meteor.userId()}).count()], ['Losses', Results.find({myClass: currentClass, result: 'Loss', owner: Meteor.userId()}).count()]]
         })
       })
-
       $('#games-played-pie-chart').highcharts({
         chart: {
+          type: 'pie',
           plotBackgroundColor: null,
           plotBorderWidth: null,
           plotShadow: false
@@ -51,27 +58,29 @@ if (Meteor.isClient) {
         credits: {
           enabled: false
         },
+        subtitle: {
+          text: 'Click the slices to view results.'
+        },
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.y}</b>'
+          headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+          pointFormat: '<b>{point.y}</b> as <span style="color:{point.color}">{point.name}</span><br/>'
         },
         plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
+          series: {
             dataLabels: {
               enabled: true,
-              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-              style: {
-                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-              }
+              format: '{point.name}: {point.percentage:.1f}%',
             }
           }
         },
         series: [{
-          type: 'pie',
-          name: 'Played',
+          name: 'Total Played',
+          colorByPoint: true,
           data: data
-        }]
+        }],
+        drilldown: {
+          series: drilldownSeries
+        }
       });
     }
   });
