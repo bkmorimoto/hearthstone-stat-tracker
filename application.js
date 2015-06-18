@@ -16,6 +16,86 @@ if (Meteor.isClient) {
     }
   })
 
+  Template.navbar.onCreated(function() {
+    this.subscribe("heroClasses");
+  });
+
+  Template.navbar.events({
+    'click .overall-stats': function() {
+      $('.ui.modal').modal('show');
+      $('#games-played-pie-chart').highcharts().reflow();
+    }
+  });
+
+  Template.overallStats.onCreated(function() {
+    builtPieReactive = function() {
+      var data = new Array();
+      var drilldownSeries = new Array();
+
+      HeroClasses.find().forEach(function(heroClass) {
+        var currentClass = heroClass.heroClass;
+        data.push({
+          name: currentClass,
+          y: Results.find({myClass: currentClass, owner: Meteor.userId()}).count(),
+          color: HeroClasses.findOne({heroClass: currentClass}).color,
+          drilldown: currentClass
+        })
+        drilldownSeries.push({
+          name: currentClass,
+          id: currentClass,
+          data: [['Wins', Results.find({myClass: currentClass, result: 'Win', owner: Meteor.userId()}).count()], ['Losses', Results.find({myClass: currentClass, result: 'Loss', owner: Meteor.userId()}).count()]]
+        })
+      })
+      $('#games-played-pie-chart').highcharts({
+        chart: {
+          type: 'pie',
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false
+        },
+        colors: [
+          '#5bbd72',
+          '#d95c5c'
+        ],
+        title: {
+          text: 'Games Played'
+        },
+        credits: {
+          enabled: false
+        },
+        subtitle: {
+          text: 'Click the slices to view results.'
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+          pointFormat: '<b>{point.y}</b> as <span style="color:{point.color}">{point.name}</span><br/>'
+        },
+        plotOptions: {
+          series: {
+            dataLabels: {
+              enabled: true,
+              format: '{point.name}: {point.percentage:.1f}%',
+            }
+          }
+        },
+        series: [{
+          name: 'Total Played',
+          colorByPoint: true,
+          data: data
+        }],
+        drilldown: {
+          series: drilldownSeries
+        }
+      });
+    }
+  });
+
+  Template.overallStats.onRendered(function() {
+    Tracker.autorun(function() {
+      builtPieReactive();
+    })
+  })
+
   Template.featureList.helpers({
     features: function() {
       return [
@@ -237,15 +317,15 @@ if (Meteor.isServer) {
     HeroClasses = new Mongo.Collection("heroClasses");
 
     if (HeroClasses.find().count() == 0) {
-      HeroClasses.insert({ heroClass: "Druid" });
-      HeroClasses.insert({ heroClass: "Hunter" });
-      HeroClasses.insert({ heroClass: "Mage" });
-      HeroClasses.insert({ heroClass: "Paladin" });
-      HeroClasses.insert({ heroClass: "Priest" });
-      HeroClasses.insert({ heroClass: "Rogue" })
-      HeroClasses.insert({ heroClass: "Shaman" });
-      HeroClasses.insert({ heroClass: "Warlock" });
-      HeroClasses.insert({ heroClass: "Warrior" });
+      HeroClasses.insert({ heroClass: "Druid", color: "#FF7D0A" });
+      HeroClasses.insert({ heroClass: "Hunter", color: "#ABD473" });
+      HeroClasses.insert({ heroClass: "Mage", color: "#69CCF0" });
+      HeroClasses.insert({ heroClass: "Paladin", color: "#F58CBA" });
+      HeroClasses.insert({ heroClass: "Priest", color: "#999999" });
+      HeroClasses.insert({ heroClass: "Rogue", color: "#f1c40f" })
+      HeroClasses.insert({ heroClass: "Shaman", color: "#0070DE" });
+      HeroClasses.insert({ heroClass: "Warlock", color: "#9482C9" });
+      HeroClasses.insert({ heroClass: "Warrior", color: "#C79C6E" });
     }
 
     Meteor.publish('heroClasses', function() {
